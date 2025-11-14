@@ -1,1 +1,2 @@
-export declare function extractTextFromFile(file: Express.MulterFile): Promise<string>;
+import type { MulterFile } from '../../../types/multer-file';
+export declare function extractTextFromFile(file: MulterFile): Promise<any>;

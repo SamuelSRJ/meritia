@@ -19,29 +19,29 @@ let ResumeService = class ResumeService {
     async analyzeResume(file, jobDescription) {
         var _a, _b;
         if (!file)
-            throw new Error("Arquivo do curriculo é obrigatório!");
+            throw new Error('Arquivo do currículo é obrigatório!');
         if (!jobDescription)
-            throw new Error("Descrição da vaga é obrigatório");
+            throw new Error('Descrição da vaga é obrigatória');
         const resumeText = await (0, file_parser_1.extractTextFromFile)(file);
         const prompt = `Você é um assistente de recrutamento.
-      Currículo:
-      ${resumeText}
-      
-      Descrição da Vaga:
-      ${jobDescription}
-      
-      Analise o currículo em relação à vaga e retorne apenas um JSON válido com o seguinte formato: 
-      {
-        "tech_score": number,
-        "soft_score": number,
-        "final_score": number,
-        "strengths": string[],
-        "weaknesses": string[],
-        "recommendations": string[]
-      }`;
+    Currículo:
+    ${resumeText}
+
+    Descrição da Vaga:
+    ${jobDescription}
+
+    Analise o currículo em relação à vaga e retorne apenas um JSON válido com o seguinte formato:
+    {
+      "tech_score": number, (0-100)
+      "soft_score": number, (0-100)
+      "job_match": number, (%)
+      "strengths": string[],
+      "weaknesses": string[],
+      "recommendations": string[]
+    }`;
         const response = await this.openai.chat.completions.create({
-            model: "gpt-4o-mini",
-            messages: [{ role: "user", content: prompt }],
+            model: 'gpt-4o-mini',
+            messages: [{ role: 'user', content: prompt }],
             temperature: 0,
         });
         const rawText = ((_b = (_a = response.choices[0]) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.content) || '';
@@ -51,7 +51,7 @@ let ResumeService = class ResumeService {
     extractJson(text) {
         const jsonMatch = text.match(/\{[\s\S]*\}/);
         if (!jsonMatch)
-            throw new Error("JSON inválido");
+            throw new Error('JSON inválido');
         return JSON.parse(jsonMatch[0]);
     }
 };

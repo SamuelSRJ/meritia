@@ -1,19 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.extractTextFromFile = extractTextFromFile;
-const pdf_parse_1 = require("pdf-parse");
 const mammoth_1 = require("mammoth");
+const pdfParse = require('pdf-parse');
 async function extractTextFromFile(file) {
+    var _a, _b;
     if (!file)
         throw new Error('Nenhum arquivo enviado.');
     const { mimetype, buffer, originalname } = file;
-    if (mimetype === 'application/pdf' || originalname.endsWith('.pdf')) {
-        const data = await (0, pdf_parse_1.default)(buffer);
+    if (mimetype === 'application/pdf' || ((_a = originalname === null || originalname === void 0 ? void 0 : originalname.endsWith) === null || _a === void 0 ? void 0 : _a.call(originalname, '.pdf'))) {
+        const data = await pdfParse(buffer);
         return data.text;
     }
     if (mimetype ===
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-        originalname.endsWith('.docx')) {
+        ((_b = originalname === null || originalname === void 0 ? void 0 : originalname.endsWith) === null || _b === void 0 ? void 0 : _b.call(originalname, '.docx'))) {
         const result = await mammoth_1.default.extractRawText({ buffer });
         return result.value;
     }

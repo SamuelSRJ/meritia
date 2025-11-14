@@ -1,12 +1,14 @@
-import pdfParse from 'pdf-parse';
 import mammoth from 'mammoth';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const pdfParse = require('pdf-parse');
+import type { MulterFile } from '../../../types/multer-file';
 
-export async function extractTextFromFile(file: Express.MulterFile) {
+export async function extractTextFromFile(file: MulterFile) {
   if (!file) throw new Error('Nenhum arquivo enviado.');
 
   const { mimetype, buffer, originalname } = file;
 
-  if (mimetype === 'application/pdf' || originalname.endsWith('.pdf')) {
+  if (mimetype === 'application/pdf' || originalname?.endsWith?.('.pdf')) {
     const data = await pdfParse(buffer);
     return data.text;
   }
@@ -14,7 +16,7 @@ export async function extractTextFromFile(file: Express.MulterFile) {
   if (
     mimetype ===
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-    originalname.endsWith('.docx')
+    originalname?.endsWith?.('.docx')
   ) {
     const result = await mammoth.extractRawText({ buffer });
     return result.value;

@@ -16,7 +16,8 @@ exports.ResumeModule = ResumeModule;
 exports.ResumeModule = ResumeModule = __decorate([
     (0, common_1.Module)({
         controllers: [resume_controller_1.ResumeController],
-        providers: [resume_service_1.ResumeService]
+        providers: [resume_service_1.ResumeService],
+        exports: [resume_service_1.ResumeService],
     })
 ], ResumeModule);
 //# sourceMappingURL=resume.module.js.map
