@@ -17,12 +17,26 @@ const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const analyze_resume_dto_1 = require("./dto/analyze-resume.dto");
 const resume_service_1 = require("./resume.service");
+const report_generator_1 = require("./utils/report-generator");
+const report_dto_1 = require("./dto/report.dto");
 let ResumeController = class ResumeController {
     constructor(resumeService) {
         this.resumeService = resumeService;
     }
     async analyzeResume(file, body) {
         return this.resumeService.analyzeResume(file, body.jobDescription);
+    }
+    async getReport(data, res) {
+        if (!data) {
+            return res.status(400).json({ error: "Missing analysis data in body" });
+        }
+        const pdfBuffer = await (0, report_generator_1.generateResumeReport)(data);
+        res.set({
+            'Content-Type': 'application/pdf',
+            'Content-Disposition': 'attachment; filename="resume-analysis.pdf"',
+            'Content-Length': pdfBuffer.length,
+        });
+        return res.send(pdfBuffer);
     }
 };
 exports.ResumeController = ResumeController;
@@ -35,6 +49,14 @@ __decorate([
     __metadata("design:paramtypes", [Object, analyze_resume_dto_1.AnalyzeResumeDto]),
     __metadata("design:returntype", Promise)
 ], ResumeController.prototype, "analyzeResume", null);
+__decorate([
+    (0, common_1.Post)("report"),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [report_dto_1.GenerateReportDto, Object]),
+    __metadata("design:returntype", Promise)
+], ResumeController.prototype, "getReport", null);
 exports.ResumeController = ResumeController = __decorate([
     (0, common_1.Controller)('resume'),
     __metadata("design:paramtypes", [resume_service_1.ResumeService])
