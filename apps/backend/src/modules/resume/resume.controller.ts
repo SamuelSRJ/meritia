@@ -1,11 +1,11 @@
-import { Body, Controller, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
 import { MulterFile } from '../../types/multer-file';
 import { AnalyzeResumeDto } from './dto/analyze-resume.dto';
-import { ResumeService } from './resume.service';
-import { generateResumeReport } from './utils/report-generator';
 import { GenerateReportDto } from './dto/report.dto';
+import { ResumeService } from './resume.service';
+import { generatePdfReport } from './utils/pdf-generator';
 
 @Controller('resume')
 export class ResumeController {
@@ -14,16 +14,19 @@ export class ResumeController {
   @Post('analyze')
   @UseInterceptors(FileInterceptor('resume'))
   async analyzeResume(@UploadedFile() file: MulterFile, @Body() body: AnalyzeResumeDto,) {
-    return this.resumeService.analyzeResume(file, body.jobDescription);
+    if(!file) throw new BadRequestException("Arquivo de curriculo obrigatório.");
+    if(!body?.jobDescription) throw new BadRequestException("Descrição da vaga é obrigadória.");
+
+    return this.resumeService.analyzeResume(file, body.jobDescription)
   }
 
   @Post("report")
-  async getReport(@Body() data: GenerateReportDto, @Res() res: Response) {
-    if (!data) {
-      return res.status(400).json({ error: "Missing analysis data in body" });
+  async generateReport(@Body() data: GenerateReportDto, @Res() res: Response) {
+    if(!data) {
+      throw new BadRequestException("Dados de analise obrigatórios no body.");
     }
 
-    const pdfBuffer = await generateResumeReport(data);
+    const pdfBuffer = await generatePdfReport(data);
 
     res.set({
       'Content-Type': 'application/pdf',

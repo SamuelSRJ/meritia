@@ -16,21 +16,25 @@ exports.ResumeController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const analyze_resume_dto_1 = require("./dto/analyze-resume.dto");
-const resume_service_1 = require("./resume.service");
-const report_generator_1 = require("./utils/report-generator");
 const report_dto_1 = require("./dto/report.dto");
+const resume_service_1 = require("./resume.service");
+const pdf_generator_1 = require("./utils/pdf-generator");
 let ResumeController = class ResumeController {
     constructor(resumeService) {
         this.resumeService = resumeService;
     }
     async analyzeResume(file, body) {
+        if (!file)
+            throw new common_1.BadRequestException("Arquivo de curriculo obrigatório.");
+        if (!(body === null || body === void 0 ? void 0 : body.jobDescription))
+            throw new common_1.BadRequestException("Descrição da vaga é obrigadória.");
         return this.resumeService.analyzeResume(file, body.jobDescription);
     }
-    async getReport(data, res) {
+    async generateReport(data, res) {
         if (!data) {
-            return res.status(400).json({ error: "Missing analysis data in body" });
+            throw new common_1.BadRequestException("Dados de analise obrigatórios no body.");
         }
-        const pdfBuffer = await (0, report_generator_1.generateResumeReport)(data);
+        const pdfBuffer = await (0, pdf_generator_1.generatePdfReport)(data);
         res.set({
             'Content-Type': 'application/pdf',
             'Content-Disposition': 'attachment; filename="resume-analysis.pdf"',
@@ -56,7 +60,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [report_dto_1.GenerateReportDto, Object]),
     __metadata("design:returntype", Promise)
-], ResumeController.prototype, "getReport", null);
+], ResumeController.prototype, "generateReport", null);
 exports.ResumeController = ResumeController = __decorate([
     (0, common_1.Controller)('resume'),
     __metadata("design:paramtypes", [resume_service_1.ResumeService])

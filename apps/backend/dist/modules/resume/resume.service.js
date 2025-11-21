@@ -22,31 +22,37 @@ let ResumeService = class ResumeService {
             throw new Error('Arquivo do currículo é obrigatório!');
         if (!jobDescription)
             throw new Error('Descrição da vaga é obrigatória');
-        const resumeText = await (0, file_parser_1.extractTextFromFile)(file);
-        const prompt = `Você é um assistente de recrutamento.
-    Currículo:
-    ${resumeText}
+        try {
+            const resumeText = await (0, file_parser_1.extractTextFromFile)(file);
+            const prompt = `Você é um assistente de recrutamento.
+        Currículo:
+        ${resumeText}
 
-    Descrição da Vaga:
-    ${jobDescription}
+        Descrição da Vaga:
+        ${jobDescription}
 
-    Analise o currículo em relação à vaga e retorne apenas um JSON válido com o seguinte formato:
-    {
-      "tech_score": number, (0-100)
-      "soft_score": number, (0-100)
-      "job_match": number, (%)
-      "strengths": string[],
-      "weaknesses": string[],
-      "recommendations": string[]
-    }`;
-        const response = await this.openai.chat.completions.create({
-            model: 'gpt-4o-mini',
-            messages: [{ role: 'user', content: prompt }],
-            temperature: 0,
-        });
-        const rawText = ((_b = (_a = response.choices[0]) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.content) || '';
-        const json = this.extractJson(rawText);
-        return json;
+        Analise o currículo em relação à vaga e retorne apenas um JSON válido com o seguinte formato:
+        {
+          "tech_score": number, (0-100)
+          "soft_score": number, (0-100)
+          "job_match": number, (%)
+          "strengths": string[],
+          "weaknesses": string[],
+          "recommendations": string[]
+        }`;
+            const response = await this.openai.chat.completions.create({
+                model: 'gpt-4o-mini',
+                messages: [{ role: 'user', content: prompt }],
+                temperature: 0,
+            });
+            const rawText = ((_b = (_a = response.choices[0]) === null || _a === void 0 ? void 0 : _a.message) === null || _b === void 0 ? void 0 : _b.content) || '';
+            const json = this.extractJson(rawText);
+            return json;
+        }
+        catch (err) {
+            console.error('analyzeResume error:', err);
+            throw new common_1.InternalServerErrorException("Erro ao processar o curriculo.");
+        }
     }
     extractJson(text) {
         const jsonMatch = text.match(/\{[\s\S]*\}/);
