@@ -1,4 +1,5 @@
 import ComoFunciona from "../../components/comofunciona/ComoFunciona"
+import Convite from "../../components/convite/Convite"
 import Inicio from "../../components/inicio/Inicio"
 import PublicoAlvo from "../../components/publicoalvo/PublicoAlvo"
 
@@ -8,14 +9,14 @@ function Home() {
       <section id="inicio" className="scroll-mt-16"> {/* ajuste scroll-mt-* se tiver navbar fixa */}
         <Inicio />
       </section>
-      <section id="sobre" className="scroll-mt-16">
+      <section id="comofunciona" className="scroll-mt-16">
         <ComoFunciona />
       </section>
-      <section id="projetos" className="scroll-mt-16">
+      <section id="publicoalvo" className="scroll-mt-16">
         <PublicoAlvo />
       </section>
-      <section id="contato" className="">
-        {/* <Pronto /> */}
+      <section id="convite" className="">
+        <Convite />
       </section>
     </div>
   )
