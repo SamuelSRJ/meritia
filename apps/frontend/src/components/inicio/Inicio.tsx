@@ -30,7 +30,7 @@ function Inicio() {
                 <span className="text-sm font-bold text-blue-600">92/100</span>
               </div>
               <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full" style={{ width: "92%" }}></div>
+                <div className="h-full bg-linear-to-r from-blue-500 to-blue-600 rounded-full" style={{ width: "92%" }}></div>
               </div>
             </div>
             {/* SOFT SKILLS */}
@@ -40,7 +40,7 @@ function Inicio() {
                 <span className="text-sm font-bold text-blue-600">88/100</span>
               </div>
               <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-full" style={{ width: "88%" }}></div>
+                <div className="h-full bg-linear-to-r from-indigo-500 to-indigo-600 rounded-full" style={{ width: "88%" }}></div>
               </div>
             </div>
             {/* COMPATIBILIDADE */}
@@ -50,7 +50,7 @@ function Inicio() {
                 <span className="text-sm font-bold text-blue-600">95/100</span>
               </div>
               <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-green-500 to-green-600 rounded-full" style={{ width: "95%" }}></div>
+                <div className="h-full bg-linear-to-r from-green-500 to-green-600 rounded-full" style={{ width: "95%" }}></div>
               </div>
             </div>
           </div>
