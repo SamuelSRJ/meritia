@@ -15,7 +15,7 @@ function Inicio() {
         <div className="bg-white rounded-2xl shadow-2xl p-8 border border-slate-200">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-              <i className=""><CheckIcon size={24} className="text-green-600"></CheckIcon></i>
+              <i className=""><CheckIcon size={24} className="text-green-600" /></i>
             </div>
             <div>
               <div className="text-sm text-slate-500">Análise Completa</div>

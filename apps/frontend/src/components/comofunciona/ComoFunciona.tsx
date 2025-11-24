@@ -12,7 +12,7 @@ function ComoFunciona() {
           {/* STEP 1 */}
           <div className="text-center p-8 rounded-xl hover:bg-slate-50 transition-colors">
             <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <SignInIcon size={28} className="text-blue-600"></SignInIcon>
+              <SignInIcon size={28} className="text-blue-600" />
             </div>
             <div className="text-xl font-bold text-slate-900 mb-3">1. Faça Login</div>
             <div className="text-slate-600">Entre com sua conta Google para acessar os recursos do Gemini AI de forma segura</div>
@@ -20,7 +20,7 @@ function ComoFunciona() {
           {/* STEP 2 */}
           <div className="text-center p-8 rounded-xl hover:bg-slate-50 transition-colors">
             <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CloudArrowUpIcon size={28} className="text-indigo-600"></CloudArrowUpIcon>
+              <CloudArrowUpIcon size={28} className="text-indigo-600" />
             </div>
             <div className="text-xl font-bold text-slate-900 mb-3">2. Envie os Dados</div>
             <div className="text-slate-600">Anexe seu currículo e cole a descrição da vaga que deseja se candidatar</div>
@@ -28,7 +28,7 @@ function ComoFunciona() {
           {/* STEP 3 */}
           <div className="text-center p-8 rounded-xl hover:bg-slate-50 transition-colors">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <ChartLineIcon size={28} className="text-green-600"></ChartLineIcon>
+              <ChartLineIcon size={28} className="text-green-600" />
             </div>
             <div className="text-xl font-bold text-slate-900 mb-3">3. Receba Análise</div>
             <div className="text-slate-600">Obtenha notas detalhadas, pontos fortes, fracos e recomendações personalizadas</div>
