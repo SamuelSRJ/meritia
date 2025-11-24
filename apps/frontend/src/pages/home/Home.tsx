@@ -1,23 +1,27 @@
 import ComoFunciona from "../../components/comofunciona/ComoFunciona"
 import Convite from "../../components/convite/Convite"
+import Footer from "../../components/footer/Footer"
 import Inicio from "../../components/inicio/Inicio"
+import Navbar from "../../components/navbar/Navbar"
 import PublicoAlvo from "../../components/publicoalvo/PublicoAlvo"
 
 function Home() {
   return (
     <div className='w-full'>
-      <section id="inicio">
+      <Navbar />
+      <section id="inicio" className="scroll">
         <Inicio />
       </section>
-      <section id="comofunciona">
+      <section id="comofunciona" className="scroll">
         <ComoFunciona />
       </section>
-      <section id="publicoalvo">
+      <section id="publicoalvo" className="scroll">
         <PublicoAlvo />
       </section>
-      <section id="convite">
+      <section id="convite" className="scroll">
         <Convite />
       </section>
+      <Footer />
     </div>
   )
 }

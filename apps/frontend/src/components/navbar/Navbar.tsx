@@ -1,4 +1,5 @@
 import { ReadCvLogoIcon } from "@phosphor-icons/react"
+import { Link } from "react-router-dom"
 
 function Navbar() {
   return (
@@ -9,7 +10,7 @@ function Navbar() {
           <span className="self-center text-2xl text-heading font-semibold whitespace-nowrap">CV Analyzer</span>
         </a>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <button type="button" className="px-5 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors whitespace-nowrap cursor-pointer">Fazer Login</button>
+          <Link to={"/login"} className="px-5 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors whitespace-nowrap cursor-pointer">Fazer Login</Link>
         </div>
       </div>
     </nav>
