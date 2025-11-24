@@ -6,16 +6,16 @@ import PublicoAlvo from "../../components/publicoalvo/PublicoAlvo"
 function Home() {
   return (
     <div className='w-full'>
-      <section id="inicio" className="scroll-mt-16"> {/* ajuste scroll-mt-* se tiver navbar fixa */}
+      <section id="inicio">
         <Inicio />
       </section>
-      <section id="comofunciona" className="scroll-mt-16">
+      <section id="comofunciona">
         <ComoFunciona />
       </section>
-      <section id="publicoalvo" className="scroll-mt-16">
+      <section id="publicoalvo">
         <PublicoAlvo />
       </section>
-      <section id="convite" className="">
+      <section id="convite">
         <Convite />
       </section>
     </div>
