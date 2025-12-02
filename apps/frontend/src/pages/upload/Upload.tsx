@@ -1,6 +1,7 @@
 import { BriefcaseIcon, CloudArrowUpIcon, FileArrowUpIcon } from "@phosphor-icons/react"
 import Footer from "../../components/footer/Footer"
 import Navbar from "../../components/navbar/Navbar"
+import { Link } from "react-router-dom"
 
 function Upload() {
   return (
@@ -54,7 +55,8 @@ function Upload() {
         </div>
         <div className="flex gap-4 justify-center mb-10">
           <button className="px-8 py-4 bg-white text-slate-700 rounded-lg font-semibold hover:bg-slate-50 transition-colors border-2 border-slate-200 whitespace-nowrap cursor-pointer">Cancelar</button>
-          <button className="px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colorsdisable:bg-slate-300 disabled:cursor-not-allowed whitespace-nowrap cursor-pointer flex items-center gap-2">Iniciar Análise</button>
+          {/* <button className="px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colorsdisable:bg-slate-300 disabled:cursor-not-allowed whitespace-nowrap cursor-pointer flex items-center gap-2">Iniciar Análise</button> */}
+          <Link to={"/results"} className="px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colorsdisable:bg-slate-300 disabled:cursor-not-allowed whitespace-nowrap cursor-pointer flex items-center gap-2">Iniciar Análise</Link>
         </div>
       </div>
       <Footer />

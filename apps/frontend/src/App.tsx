@@ -3,6 +3,7 @@ import './App.css'
 import Home from './pages/home/Home'
 import Login from './pages/login/Login'
 import Upload from './pages/upload/Upload'
+import Results from './pages/results/Results'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
                 <Route path='/home' element={<Home />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/upload' element={<Upload />} />
+                <Route path='/results' element={<Results />} />
                 {/* <Route path='/login' element={<Login />} /> */}
               </Routes>
             </div>
