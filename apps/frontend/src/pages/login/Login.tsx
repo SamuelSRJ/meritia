@@ -5,7 +5,7 @@ function Login() {
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-50 to-blue-50 flex items-center justify-center px-4">
       <div className="max-w-md w-full">
-        <div className="text-center mb-8">
+        <div className="text-center my-8">
           <ReadCvLogoIcon size={48} className="bg-blue-600 text-white p-1 rounded-lg mx-auto mb-4" />
           <p className="text-3xl font-bold text-slate-900 mb-2">CV Analyzer</p>
           <p className="text-slate-600">Análise inteligente de currículos com IA</p>
@@ -55,7 +55,7 @@ function Login() {
             </div>
           </div>
         </div>
-        <p className="text-center text-sm text-slate-500 mt-6">Ao continuar, você concorda com nossos Termos de Uso e Política de Privacidade</p>
+        <p className="text-center text-sm text-slate-500 mt-6 mb-4">Ao continuar, você concorda com nossos <span className="underline cursor-pointer">Termos de Uso</span> e <span className="underline cursor-pointer">Política de Privacidade</span></p>
       </div>
     </div>
   )

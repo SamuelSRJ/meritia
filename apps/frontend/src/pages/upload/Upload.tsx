@@ -9,9 +9,10 @@ function Upload() {
 
   const [filename, setFilename] = useState<string>("");
   const [fileSizeKB, setFileSizeKB] = useState<number>(0);
-  const [limite, setLimit] = useState(0);
+  const [limit, setLimit] = useState(0);
   const [error, setError] = useState<string>("");
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const maxChars: number = 2000;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -24,17 +25,31 @@ function Upload() {
       if (inputRef.current) inputRef.current.value = "";
       return;
     }
+    const allowedTypes = [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ];
+    if (!allowedTypes.includes(file.type)) {
+      setError("Formato do arquivo não suportado");
+      setFilename("");
+      setFileSizeKB(0)
+      if(inputRef.current) inputRef.current.value = "";
+      return
+    }
     setError("");
     setFilename(file.name);
     setFileSizeKB(Math.round(file.size / 1024));
   };
-
   const handleRemoveFile = () => {
     setFilename("");
     setFileSizeKB(0);
     setError("");
     if (inputRef.current) inputRef.current.value = "";
   };
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setLimit(e.target.value.length);
+  }
 
   return (
     <div className="w-full bg-linear-to-br from-slate-50 via-blue-50 to-indigo-50">
@@ -63,7 +78,7 @@ function Upload() {
                 <p className="text-lg font-semibold text-slate-900 mb-2">Clique para selecionar ou arraste seu currículo</p>
                 <p className="text-sm text-slate-500">PDF, DOC ou DOCX até 5MB</p>
               </label> 
-              :
+              : 
               <div className="cursor-default">
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <FileTextIcon size={28} className="text-green-700" />
@@ -76,7 +91,7 @@ function Upload() {
                   <p className="text-green-400 text-sm">Arquivo carregado • {fileSizeKB} KB</p>
                 </div>
                 <button onClick={handleRemoveFile}>
-                  <div className="flex items-center justify-center gap-1 rounded-lg py-1 px-3 bg-red- hover:bg-red-100 cursor-pointer transition-colors">
+                  <div className="flex items-center justify-center gap-1 rounded-lg py-1 px-3 bg-red-50 hover:bg-red-100 cursor-pointer transition-colors">
                     <div className="flex items-center justify-center">
                       <XIcon size={12} className="text-red-500" />
                     </div>
@@ -96,7 +111,7 @@ function Upload() {
             </div>
             <div>
               <p className="text-2xl font-bold text-slate-900">Descrição da Vaga</p>
-              <p className="text-slate-600">Cole aqui a descrição da vaga desejada</p>
+              <p className="text-slate-600">Cole aqui a descrição da vaga desejada <span className="text-slate-400 text-sm">(max. {maxChars} caractéres)</span></p>
             </div>
           </div>
           <textarea 
@@ -104,11 +119,17 @@ function Upload() {
             id="vaga-desc"
             className="w-full h-64 px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-blue-400 focus:outline-none resize-none text-slate-700 text-sm"
             placeholder="Cole aqui a descrição da vaga, incluindo requisitos técnicos, soft skills desejadas, responsabilidades e qualquer outra informação relevante..."
-            maxLength={1000}>
+            maxLength={maxChars}
+            onChange={handleTextareaChange}>
           </textarea>
           <div className="flex justify-between items-center mt-3">
             <p className="text-sm text-slate-500">Quanto mais detalhes, melhor será a análise</p>
-            <p className="text-sm text-slate-400">{0}/1000</p>
+            {limit >= maxChars ?
+              <p className="text-sm text-red-400">{limit}/{maxChars}</p>
+            :
+              <p className="text-sm text-slate-400">{limit}/{maxChars}</p>
+            }
+            
           </div>
         </div>
         <div className="flex gap-4 justify-center mb-10">
