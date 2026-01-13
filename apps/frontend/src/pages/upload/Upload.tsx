@@ -6,18 +6,17 @@ import Navbar from "../../components/navbar/Navbar";
 
 
 function Upload() {
-
   const [filename, setFilename] = useState<string>("");
   const [fileSizeKB, setFileSizeKB] = useState<number>(0);
   const [limit, setLimit] = useState(0);
   const [error, setError] = useState<string>("");
+  const [isDragging, setIsDragging] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const maxChars: number = 2000;
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const processFile = (file: File | undefined) => {
     if (!file) return;
-    const maxBytes = 5 * 1024 * 1024
+    const maxBytes = 5 * 1024 * 1024;
     if (file.size > maxBytes) {
       setError("Arquivo maior que 5MB");
       setFilename("");
@@ -33,14 +32,43 @@ function Upload() {
     if (!allowedTypes.includes(file.type)) {
       setError("Formato do arquivo não suportado");
       setFilename("");
-      setFileSizeKB(0)
-      if(inputRef.current) inputRef.current.value = "";
-      return
+      setFileSizeKB(0);
+      if (inputRef.current) inputRef.current.value = "";
+      return;
     }
     setError("");
     setFilename(file.name);
     setFileSizeKB(Math.round(file.size / 1024));
   };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    processFile(file);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    const file = e.dataTransfer.files?.[0];
+    processFile(file);
+  };
+
   const handleRemoveFile = () => {
     setFilename("");
     setFileSizeKB(0);
@@ -67,7 +95,13 @@ function Upload() {
               <p className="text-slate-600">Formatos suportados: PDF, DOC, DOCX (máx. 5MB)</p>
             </div>
           </div>
-          <div className="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center hover:border-blue-400 transition-colors cursor-pointer">
+          <div
+            className={"border-2 border-dashed rounded-xl p-8 text-center hover:border-blue-400 transition-colors cursor-pointer " + (isDragging ? "border-blue-400 bg-blue-50" : "border-slate-300")}
+            onDragOver={handleDragOver}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+          >
             <input id="cv-upload" type="file" className="hidden" accept=".pdf,.doc,.docx" ref={inputRef} onChange={handleFileChange} />
             {
               !filename ?
