@@ -1,7 +1,19 @@
-import { BrainIcon, ReadCvLogoIcon, ShieldCheckIcon } from "@phosphor-icons/react"
-import { Link } from "react-router-dom"
+import { BrainIcon, ReadCvLogoIcon, ShieldCheckIcon } from "@phosphor-icons/react";
+import { useEffect } from "react";
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+
+  const { user, signInWithGoogle, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(localStorage.user) {
+      navigate("/upload");
+    }
+  }, [user, navigate])
+
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-50 to-blue-50 flex items-center justify-center px-4">
       <div className="max-w-md w-full">
@@ -13,7 +25,7 @@ function Login() {
         <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
           <p className="text-2xl font-bold text-slate-900 mb-2">Bem-vindo!</p>
           <p className="text-slate-600 mb-8">Faça login com sua conta Google para acessar os recursos do Gemini AI</p>
-          <Link to={"/upload"} className="w-full bg-white border-2 border-slate-700 rounded-lg py-4 px-6 font-semibold hover:bg-slate-50 transition-colors flex items-center justify-center gap-3 mb-6 whitespace-nowrap cursor-pointer">
+          <button onClick={signInWithGoogle} disabled={loading} className="w-full bg-white border-2 border-slate-700 rounded-lg py-4 px-6 font-semibold hover:bg-slate-50 transition-colors flex items-center justify-center gap-3 mb-6 whitespace-nowrap cursor-pointer">
             <svg className="w-6 h-6" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z">
               </path>
@@ -25,7 +37,7 @@ function Login() {
               </path>
             </svg>
             <span>Continuar com Google</span>
-          </Link>
+          </button>
           <div className="relative mb-6">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-slate-200"></div>
