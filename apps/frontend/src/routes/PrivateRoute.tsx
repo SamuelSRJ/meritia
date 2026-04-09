@@ -7,7 +7,7 @@ export function PrivateRoute({ children } : { children: JSX.Element}) {
 
   if(loading) return <p>Loading...</p>;
 
-  if(!localStorage.user) return <Navigate to="/" replace/>;
+  // if(!localStorage.user) return <Navigate to="/" replace/>;
 
   return children;
 }

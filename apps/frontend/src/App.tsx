@@ -1,43 +1,48 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import './App.css'
-import Home from './pages/home/Home'
-import Login from './pages/login/Login'
-import Results from './pages/results/Results'
-import Upload from './pages/upload/Upload'
-import { PrivateRoute } from './routes/PrivateRoute'
-import { AuthProvider } from './context/AuthContext'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import { ScrollToTop } from "./components/scrollToTop/ScrollToTop";
+import { AuthProvider } from "./context/AuthContext";
+import Home from "./pages/home/Home";
+import Results from "./pages/results/Results";
+import Upload from "./pages/upload/Upload";
 
 function App() {
-
   return (
     <>
-      <div className=''>
-          <AuthProvider>
-            <BrowserRouter>
-            <div className='min-h-[80vh]'>
+      <div className="">
+        <AuthProvider>
+          <BrowserRouter>
+            <ScrollToTop />
+            <div className="min-h-[80vh]">
               <Routes>
-                <Route path='/' element={<Home />} />
-                <Route path='/home' element={<Home />} />
-                <Route path='/login' element={<Login />} />
-                <Route path='/upload' element={
-                  <PrivateRoute>
+                <Route path="/" element={<Home />} />
+                <Route path="/home" element={<Home />} />
+                {/* <Route path='/login' element={<Login />} /> */}
+                <Route
+                  path="/upload"
+                  element={
+                    // <PrivateRoute>
                     <Upload />
-                  </PrivateRoute>
-                } />
-                <Route path='/results' element={
-                  <PrivateRoute>
+                    // </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/results"
+                  element={
+                    // <PrivateRoute>
                     <Results />
-                  </PrivateRoute>
-                } />
-                
+                    // </PrivateRoute>
+                  }
+                />
+
                 {/* <Route path='/login' element={<Login />} /> */}
               </Routes>
             </div>
           </BrowserRouter>
-          </AuthProvider>
+        </AuthProvider>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

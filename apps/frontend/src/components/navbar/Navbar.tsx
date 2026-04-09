@@ -15,7 +15,7 @@ function Navbar() {
         </Link>
         {!user ? (
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <Link to={"/login"} className="px-5 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors whitespace-nowrap cursor-pointer">Fazer Login</Link>
+            <Link to={"/"} className="px-5 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors whitespace-nowrap cursor-pointer">Fazer Login</Link>
           </div>
         ) : (
           <div className="flex md:order-2 space-x-3 md:space-x-3 rtl:space-x-reverse items-center">
