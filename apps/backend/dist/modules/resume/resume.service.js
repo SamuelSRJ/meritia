@@ -77,7 +77,7 @@ let ResumeService = class ResumeService {
                     const status = error === null || error === void 0 ? void 0 : error.status;
                     const message = (error === null || error === void 0 ? void 0 : error.message) || "Erro desconhecido";
                     if (status === 503) {
-                        const waitTime = Math.pow(2, attempt - 1) * 1000;
+                        const waitTime = Math.pow(2, attempt - 1) * 10000;
                         console.warn(`⚠️  Modelo sobrecarregado (503). Aguardando ${waitTime}ms antes de tentar novamente...`);
                         await this.delay(waitTime);
                     }

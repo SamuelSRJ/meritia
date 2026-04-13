@@ -79,7 +79,7 @@ export class ResumeService {
 
           // Se for erro 503 (sobrecarregado), tenta novamente
           if (status === 503) {
-            const waitTime = Math.pow(2, attempt - 1) * 1000; // Exponential backoff: 1s, 2s, 4s
+            const waitTime = Math.pow(2, attempt - 1) * 10000; // Exponential backoff: 1s, 2s, 4s
             console.warn(
               `⚠️  Modelo sobrecarregado (503). Aguardando ${waitTime}ms antes de tentar novamente...`,
             );
