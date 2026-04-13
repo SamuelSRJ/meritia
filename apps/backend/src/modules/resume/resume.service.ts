@@ -1,17 +1,25 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import OpenAI from 'openai';
-import { extractTextFromFile } from './utils/file-parser';
-import { MulterFile } from '../../types/multer-file';
+import { GoogleGenAI } from "@google/genai";
+import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import { MulterFile } from "../../types/multer-file";
+import { extractTextFromFile } from "./utils/file-parser";
 
 @Injectable()
 export class ResumeService {
-  private openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
+  private ai: GoogleGenAI;
+  private readonly MAX_RETRIES = 3;
+  private readonly MODELS = ["gemini-2.5-flash", "gemini-2.0-flash"];
+
+  constructor() {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY environment variable is not defined");
+    }
+    this.ai = new GoogleGenAI({ apiKey });
+  }
 
   async analyzeResume(file: MulterFile, jobDescription: string) {
-    if (!file) throw new Error('Arquivo do currículo é obrigatório!');
-    if (!jobDescription) throw new Error('Descrição da vaga é obrigatória');
+    if (!file) throw new Error("Arquivo do currículo é obrigatório!");
+    if (!jobDescription) throw new Error("Descrição da vaga é obrigatória");
 
     try {
       const resumeText = await extractTextFromFile(file);
@@ -32,25 +40,79 @@ export class ResumeService {
           "recommendations": string[]
         }`;
 
-      const response = await this.openai.chat.completions.create({
-        model: 'gpt-4o-mini',
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0,
-      });
-
-      const rawText = response.choices[0]?.message?.content || '';
+      const response = await this.generateContentWithRetry(prompt);
+      const rawText = response.text;
       const json = this.extractJson(rawText);
 
       return json;
     } catch (err) {
-      console.error('analyzeResume error:', err);
-      throw new InternalServerErrorException("Erro ao processar o curriculo.")
+      console.error("analyzeResume error:", err);
+      throw new InternalServerErrorException("Erro ao processar o curriculo.");
     }
+  }
+
+  private async generateContentWithRetry(prompt: string) {
+    let lastError: any;
+
+    // Tenta cada modelo disponível com retry automático
+    for (const model of this.MODELS) {
+      for (let attempt = 1; attempt <= this.MAX_RETRIES; attempt++) {
+        try {
+          console.log(
+            `[Tentativa ${attempt}/${this.MAX_RETRIES}] Usando modelo: ${model}`,
+          );
+
+          const response = await this.ai.models.generateContent({
+            model,
+            contents: prompt,
+            config: {
+              temperature: 0,
+            },
+          });
+
+          console.log(`✅ Sucesso com modelo: ${model}`);
+          return response;
+        } catch (error: any) {
+          lastError = error;
+          const status = error?.status;
+          const message = error?.message || "Erro desconhecido";
+
+          // Se for erro 503 (sobrecarregado), tenta novamente
+          if (status === 503) {
+            const waitTime = Math.pow(2, attempt - 1) * 1000; // Exponential backoff: 1s, 2s, 4s
+            console.warn(
+              `⚠️  Modelo sobrecarregado (503). Aguardando ${waitTime}ms antes de tentar novamente...`,
+            );
+            await this.delay(waitTime);
+          }
+          // Se for erro de API key ou permissão, não tenta novamente
+          else if (status === 401 || status === 403) {
+            console.error(`❌ Erro de autenticação: ${message}`);
+            throw error;
+          }
+          // Para outros erros, tenta o próximo modelo
+          else {
+            console.warn(`⚠️  Erro com modelo ${model}: ${message}`);
+            break;
+          }
+        }
+      }
+    }
+
+    // Se chegou aqui, todos os modelos falharam
+    console.error("❌ Todos os modelos falharam após retries");
+    throw new InternalServerErrorException(
+      `Serviço indisponível. Modelos estão sobrecarregados. Por favor, tente novamente em alguns minutos. Erro: ${lastError?.message}`,
+    );
+  }
+
+  private delay(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   private extractJson(text: string) {
     const jsonMatch = text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error('JSON inválido');
+    if (!jsonMatch) throw new Error("JSON inválido");
     return JSON.parse(jsonMatch[0]);
   }
 }

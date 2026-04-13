@@ -4,7 +4,7 @@ const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
 const all_exceptions_filter_1 = require("./common/filters/all-exceptions.filter");
-const port = process.env.PORT;
+const port = process.env.PORT || 4000;
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.enableCors();

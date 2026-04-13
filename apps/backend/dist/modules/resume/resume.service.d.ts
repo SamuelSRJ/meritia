@@ -1,6 +1,11 @@
-import { MulterFile } from '../../types/multer-file';
+import { MulterFile } from "../../types/multer-file";
 export declare class ResumeService {
-    private openai;
+    private ai;
+    private readonly MAX_RETRIES;
+    private readonly MODELS;
+    constructor();
     analyzeResume(file: MulterFile, jobDescription: string): Promise<any>;
+    private generateContentWithRetry;
+    private delay;
     private extractJson;
 }
