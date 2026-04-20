@@ -13,7 +13,7 @@ function Navbar() {
           <ReadCvLogoIcon size={28} className="bg-blue-600 text-white p-1 rounded-sm" />
           <span className="self-center text-2xl text-heading font-semibold whitespace-nowrap">CV Analyzer</span>
         </Link>
-        {!user ? (
+        {/* {!user ? (
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             <Link to={"/"} className="px-5 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors whitespace-nowrap cursor-pointer">Fazer Login</Link>
           </div>
@@ -24,7 +24,7 @@ function Navbar() {
               onClick={logout}
               className="px-5 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition-colors whitespace-nowrap cursor-pointer">Sair</button>
           </div>
-        )}
+        )} */}
       </div>
     </nav>
   )

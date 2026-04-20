@@ -1,0 +1,80 @@
+
+##########
+Collaborate with cross-functional teams to define and design user interface solutions
+Develop and implement high-quality front-end applications using React.js and TypeScript
+Write clean, efficient, and well-documented code to implement the desired requirements
+Contribute to all phases of the development lifecycle, from concept and design to testing
+Troubleshoot and resolve complex technical issues related to front-end functionality
+Participate in code reviews to maintain code quality and share knowledge with team members
+Analyze user requirements and convert them into highly functional code
+Continuously integrate and deploy developed software, updating and modifying systems to improve efficiency
+Stay updated on emerging technologies and industry trends to apply them within the organization where appropriate
+Integrate and leverage AI technologies in frontend development to enhance user experiences and optimize application performance. Collaborate with cross-functional teams to identify opportunities for AI implementation and ensure seamless integration of AI-driven features
+
+Qualification:
+Bachelor’s degree in Computer Science, Engineering, or a related field, or equivalent practical experience
+Proven work experience as a Front End Developer or similar role with a solid understanding of projects from the perspective of both client and business
+Proficiency in advanced English, both written and spoken, for effective global communication.
+Knowledge of AI technologies and their applications in project work
+
+###########
+
+Perfil Desejado
+Desenvolver e evoluir aplicações web, atuando em front-end e/ou back-end;
+Construir interfaces modernas, responsivas e intuitivas, garantindo boa experiência do usuário;
+Implementar e manter APIs, serviços e integrações entre sistemas;
+Traduzir requisitos de negócio em soluções técnicas eficientes e bem estruturadas;
+Garantir qualidade, performance e consistência das aplicações;
+Atuar na análise e resolução de problemas em sistemas complexos;
+Colaborar com times multidisciplinares, contribuindo com melhorias técnicas e de produto;
+Demonstrar pensamento analítico, organização e autonomia na condução das demandas;
+Ter boa comunicação, postura colaborativa e senso de responsabilidade sobre as entregas;
+Buscar evolução contínua, acompanhando novas tecnologias e boas práticas de desenvolvimento.
+
+Requisitos
+Graduação em áreas de TI, Ciência da Computação, Engenharia da Computação, Análise de Desenvolvimento de Sistemas ou correlatas;
+Experiência com desenvolvimento web (front-end e/ou back-end);
+Conhecimento em HTML, CSS e JavaScript (ES6+);
+Experiência com frameworks modernos (React, Angular, Vue ou Blazor);
+Experiência com linguagens de back-end como C#, .NET, Node.js ou similares;
+Conhecimento em construção e consumo de APIs REST;
+Experiência com regras de negócio e lógica aplicada ao backend;
+Experiência com bancos de dados relacionais (SQL);
+Familiaridade com versionamento de código (Git);
+Noções de responsividade, usabilidade e boas práticas de UI/UX.
+
+##############
+
+Responsabilidades
+Implementar e otimizar LLM Agents e fluxos de raciocínio orientados por IA. 
+Desenvolver e manter serviços de backend que suportem aplicações GenAI. 
+Criar, testar e aprimorar prompts e estratégias de prompt engineering para diferentes cenários de uso. 
+Integrar lógica de grounding com estruturas e bancos de dados de grafos. 
+Colaborar com engenheiros de grafos na modelagem, ingestão e utilização de dados gráficos. 
+Contribuir para a evolução do POC do GenAI PRT Tool, garantindo escalabilidade, performance e qualidade técnica. 
+Participar de discussões arquiteturais e de design de soluções envolvendo IA generativa. 
+
+Requisitos
+Experiência com modelos de linguagem (LLMs) e desenvolvimento de agentes inteligentes. 
+Habilidade prática com prompt engineering. 
+Sólidos conhecimentos em desenvolvimento backend (Python, Node.js, Java, ou similar). 
+Experiência com graph databases ou frameworks de grafos (Neo4j, AWS Neptune, GraphQL Federation, etc.) é altamente desejável. 
+Entendimento de arquiteturas modernas de IA, pipelines de dados e integração de APIs. 
+Capacidade de trabalhar em ambiente colaborativo e orientado a POC/MVP. 
+Graduação em Ti ou áreas correlatas.
+Inglês avançado.
+
+@@@@@@@@@@
+PRINCIPAIS RESPONSABILIDADES
+Responsável pela gestão dos canais de vendas (representantes e franqueados).
+Desenvolvimento e entrega de propostas de vendas e realização de apresentações detalhadas para demonstração eficaz de produtos.
+Construir um plano de negócios para cada conta desenvolvendo fortes relacionamentos com clientes.
+Planejar atividades diárias, incluindo visitas aos clientes e estabelecer objetivos quantitativos e qualitativos a serem alcançados.
+Acompanhar a evolução do mercado e da concorrência, repassando informações para a equipe sênior.
+
+QUALIFICAÇÕES NECESSÁRIAS
+Curso superior em Medicina Veterinária, Zootecnia ou Agronomia
+Experiência com nutrição de bovino de corte a pasto e confinamento 
+Experiência com gestão de canais de vendas (Franqueados e Representantes) 
+CNH categoria B e disponibilidade para viagens 
+Disponibilidade para residir em Araguaína, TO.

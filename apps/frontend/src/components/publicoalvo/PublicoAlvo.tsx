@@ -15,7 +15,7 @@ function PublicoAlvo() {
                 </div>
                 <div>
                   <p className="text-xl font-semibold text-white mb-2">Para Candidatos</p>
-                  <p className="text-blue-100">Melhore seu currículo antes de se candidatar. Identifique gaps de habilidades e receba recomendações para aumentar suas chances</p>
+                  <p className="text-blue-100">Melhore seu currículo antes de se candidatar. Identifique gaps de habilidades e receba recomendações para aumentar suas chances.</p>
                 </div>
               </div>
               {/* PARA RECRUTADORES */}
@@ -25,7 +25,7 @@ function PublicoAlvo() {
                 </div>
                 <div>
                   <p className="text-xl font-semibold text-white mb-2">Para Recrutadores</p>
-                  <p className="text-blue-100">Filtre candidatos de forma eficiente. Analise múltiplos currículos rapidamente e identifique os melhores talentos</p>
+                  <p className="text-blue-100">Filtre candidatos de forma eficiente. Analise múltiplos currículos rapidamente e identifique os melhores talentos.</p>
                 </div>
               </div>
               {/* RELATÓRIOS EM PDF */}
@@ -35,7 +35,7 @@ function PublicoAlvo() {
                 </div>
                 <div>
                   <p className="text-xl font-semibold text-white mb-2">Relatórios em PDF</p>
-                  <p className="text-blue-100">Exporte análises completas em PDF para compartilhar com sua equipe ou guardar para referência futura</p>
+                  <p className="text-blue-100">Exporte análises completas em PDF para compartilhar com sua equipe ou guardar para referência futura. (EM BREVE...)</p>
                 </div>
               </div>
             </div>
