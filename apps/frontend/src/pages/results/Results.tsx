@@ -1,32 +1,47 @@
 import {
-    ArrowsCounterClockwiseIcon,
-    CheckCircleIcon,
-    CheckIcon,
-    CodeIcon,
-    FileArrowDownIcon,
-    LightbulbFilamentIcon,
-    ThumbsUpIcon,
-    UsersFourIcon,
-    WarningCircleIcon,
-    WarningIcon,
-    WarningOctagonIcon,
+  ArrowsCounterClockwiseIcon,
+  CheckCircleIcon,
+  CheckIcon,
+  CodeIcon,
+  FileArrowDownIcon,
+  LightbulbFilamentIcon,
+  ThumbsUpIcon,
+  UsersFourIcon,
+  WarningCircleIcon,
+  WarningIcon,
+  WarningOctagonIcon,
 } from "@phosphor-icons/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../../components/footer/Footer";
 import Navbar from "../../components/navbar/Navbar";
 import { useAnalysis } from "../../context/AnalysisContext";
+import { useCountUp } from "../../hooks/useCountUp";
 
 function Results() {
   const navigate = useNavigate();
-  const { result, error } = useAnalysis();
+  const { result, error, loading } = useAnalysis();
+
+  // Animar os scores e barra quando carregar
+  const animatedTechScore = useCountUp(result?.tech_score || 0, 1100);
+  const animatedSoftScore = useCountUp(result?.soft_score || 0, 1100);
+  const animatedJobMatch = useCountUp(result?.job_match || 0, 1100);
+
+  // Animar barra quando carregar
+  const [barsVisible, setBarsVisible] = useState(false);
 
   useEffect(() => {
-    // Redireciona para upload se não há dados de análise
-    if (!result) {
+    // Inicia animação das barras após delay
+    const timer = setTimeout(() => setBarsVisible(true), 100);
+    return () => clearTimeout(timer);
+  }, [result]);
+
+  useEffect(() => {
+    // Redireciona para upload se não há dados de análise e terminou de carregar
+    if (!result && !loading) {
       navigate("/upload");
     }
-  }, [result, navigate]);
+  }, [result, loading, navigate]);
 
   // Se ainda não carregou os dados, mostra loading
   if (!result) {
@@ -69,14 +84,14 @@ function Results() {
                   Tech Skills
                 </p>
                 <p className="text-3xl font-bold text-slate-900">
-                  {result.tech_score}/100
+                  {animatedTechScore}/100
                 </p>
               </div>
             </div>
             <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
               <div
                 className="h-full bg-linear-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-1000"
-                style={{ width: `${result.tech_score}%` }}
+                style={{ width: barsVisible ? `${result.tech_score}%` : "0%" }}
               ></div>
             </div>
           </div>
@@ -92,14 +107,14 @@ function Results() {
                   Soft Skills
                 </p>
                 <p className="text-3xl font-bold text-slate-900">
-                  {result.soft_score}/100
+                  {animatedSoftScore}/100
                 </p>
               </div>
             </div>
             <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
               <div
                 className="h-full bg-linear-to-r from-indigo-500 to-indigo-600 rounded-full transition-all duration-1000"
-                style={{ width: `${result.soft_score}%` }}
+                style={{ width: barsVisible ? `${result.soft_score}%` : "0%" }}
               ></div>
             </div>
           </div>
@@ -115,14 +130,14 @@ function Results() {
                   Compatibilidade
                 </p>
                 <p className="text-3xl font-bold text-slate-900">
-                  {result.job_match}/100
+                  {animatedJobMatch}/100
                 </p>
               </div>
             </div>
             <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
               <div
                 className="h-full bg-linear-to-r from-green-500 to-green-600 rounded-full transition-all duration-1000"
-                style={{ width: `${result.job_match}%` }}
+                style={{ width: barsVisible ? `${result.job_match}%` : "0%"}}
               ></div>
             </div>
           </div>
@@ -216,7 +231,8 @@ function Results() {
             <ArrowsCounterClockwiseIcon size={18} />
             Nova Análise
           </Link>
-          <button className="px-8 py-4 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-indigo-700 transition-colors whitespace-nowrap cursor-pointer flex items-center justify-center gap-2">
+          {/* <button className="px-8 py-4 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-indigo-700 transition-colors whitespace-nowrap cursor-pointer flex items-center justify-center gap-2"> */}
+          <button className="px-8 py-4 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-indigo-700 transition-colors whitespace-nowrap cursor-pointer disabled:bg-linear-to-r disabled:from-slate-400 disabled:to-slate-400 disabled:cursor-not-allowed flex items-center justify-center gap-2" disabled>
             <FileArrowDownIcon size={24} className="text-white" />
             Exportar Relatório PDF
           </button>
