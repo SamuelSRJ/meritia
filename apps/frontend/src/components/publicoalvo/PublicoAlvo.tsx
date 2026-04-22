@@ -25,7 +25,7 @@ function PublicoAlvo() {
                 </div>
                 <div>
                   <p className="text-xl font-semibold text-white mb-2">Para Recrutadores</p>
-                  <p className="text-blue-100">Filtre candidatos de forma eficiente. Analise múltiplos currículos rapidamente e identifique os melhores talentos.</p>
+                  <p className="text-blue-100">Filtre candidatos de forma eficiente. Analise a compatibilidade de currículos com a vaga e identifique os melhores talentos.</p>
                 </div>
               </div>
               {/* RELATÓRIOS EM PDF */}
