@@ -4,7 +4,7 @@ import { useAuth } from "../../hooks/useAuth";
 
 function Navbar() {
 
-  const { user, logout } = useAuth();
+  useAuth();
   
   return (
     <nav className="bg-white w-full">

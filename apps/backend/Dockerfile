@@ -9,7 +9,7 @@ COPY package.json yarn.lock ./
 COPY apps/backend/package.json ./apps/backend/
 COPY apps/frontend ./apps/frontend
 
-RUN corepack enable && yarn install --immutable
+RUN corepack enable && yarn install
 
 # Builder
 FROM node:24-slim AS builder

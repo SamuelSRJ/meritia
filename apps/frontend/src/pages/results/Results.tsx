@@ -20,7 +20,7 @@ import { useCountUp } from "../../hooks/useCountUp";
 
 function Results() {
   const navigate = useNavigate();
-  const { result, error, loading } = useAnalysis();
+  const { result, loading } = useAnalysis();
 
   // Animar os scores e barra quando carregar
   const animatedTechScore = useCountUp(result?.tech_score || 0, 1100);

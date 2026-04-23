@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { analysisResultSeed } from "../config/seedData.ts";
 
 interface AnalysisResult {
@@ -35,7 +35,6 @@ export function AnalysisProvider({ children }: { children: React.ReactNode }) {
   );
   const [loading, setLoading] = useState(false); // Não carrega em modo seed data
   const [error, setError] = useState<string | null>(null);
-  const hasInitializedRef = useRef(false);
 
   return (
     <AnalysisContext.Provider
