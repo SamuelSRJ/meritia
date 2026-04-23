@@ -23,14 +23,14 @@ export class ResumeService {
 
     try {
       const resumeText = await extractTextFromFile(file);
-      const prompt = `Você é um assistente de recrutamento.
+      const prompt = `Você é um analisador de curriculos.
         Currículo:
         ${resumeText}
 
         Descrição da Vaga:
         ${jobDescription}
 
-        Analise o currículo em relação à vaga e retorne apenas um JSON válido com o seguinte formato:
+        Analise o currículo de maneira criteriosa em relação à vaga e retorne apenas um JSON válido com o seguinte formato para ajudar o usuário:
         {
           "tech_score": number, (0-100)
           "soft_score": number, (0-100)
