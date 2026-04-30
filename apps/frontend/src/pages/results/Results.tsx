@@ -61,7 +61,7 @@ function Results() {
       <div className="max-w-6xl mx-auto px-4 py-12">
         <div className="bg-linear-to-r from-green-500 to-emerald-600 rounded-2xl p-4 lg:p-8 mb-8 text-white">
           <div className="flex items-center gap-4 mb-2">
-            <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-white/20 flex items-center justify-center">
+            <div className="w-13 h-12 lg:w-16 lg:h-16 rounded-full bg-white/20 flex items-center justify-center">
               <CheckIcon size={44} className="p-2 lg:p-0" />
             </div>
             <div>

@@ -7,7 +7,7 @@ function Inicio() {
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 space-y-3 lg:space-x-3 items-center">
         <div className="mt-6 p-2 lg:p-0">
           <p className="text-3xl lg:text-5xl text-center lg:text-left font-bold text-slate-900 mb-6 leading-tight">Avalie seu currículo com Inteligência Artificial</p>
-          <p className="text-xl text-center lg:text-left text-slate-600 mb-8 leading-relaxed">Analise a compatibilidade do seu currículo com vagas de emprego usando IA avançada. Receba feedback detalhado sobre suas habilidades técnicas, soft skills e recomendações personalizadas.</p>
+          <p className="text-lg lg:text-xl text-center lg:text-left text-slate-600 mb-8 leading-relaxed p-2 lg:p-0">Analise a compatibilidade do seu currículo com vagas de emprego usando IA avançada. Receba feedback detalhado sobre suas habilidades técnicas, soft skills e recomendações personalizadas.</p>
           <div className="flex gap-4 mx-auto">
             {!localStorage.user ? (
               <Link to={"/upload"} className="px-6 py-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors text-lg whitespace-nowrap cursor-pointer">Começar Análise</Link>

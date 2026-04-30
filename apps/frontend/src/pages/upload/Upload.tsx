@@ -148,20 +148,20 @@ function Upload() {
     <div className="w-full bg-linear-to-br from-slate-50 via-blue-50 to-indigo-50">
       <Navbar />
       <div className="container mx-auto ">
-        <p className="text-4xl font-bold text-slate-900 mt-8 mb-4 text-center">
+        <p className="text-3xl lg:text-4xl font-bold text-slate-900 mt-8 mb-4 text-center">
           Análise Inteligente de Currículo
         </p>
         <p className="text-lg text-slate-600 mb-12 text-center">
           Envie seu currículo e a descrição da vaga para receber uma análise
           detalhada com AI
         </p>
-        <div className="border border-slate-200 bg-white rounded-2xl shadow-xl p-8 w-[70vw] mx-auto mb-8">
+        <div className="border border-slate-200 bg-white rounded-2xl shadow-xl p-4 lg:p-8 lg:w-[70vw] mx-2 lg:mx-auto mb-8">
           <div className="flex items-center gap-4 mb-4">
-            <div className="w-13 h-13 bg-blue-100 rounded-lg flex items-center justify-center">
-              <FileArrowUpIcon size={24} className="text-blue-700" />
+            <div className="w-20 h-15 lg:w-13 lg:h-13 bg-blue-100 rounded-lg flex items-center justify-center">
+              <FileArrowUpIcon size={36} className="text-blue-700" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-slate-900">
+              <p className="text-xl lg:text-2xl font-bold text-slate-900">
                 Envie seu Currículo
               </p>
               <p className="text-slate-600">
@@ -229,13 +229,13 @@ function Upload() {
           </div>
         </div>
 
-        <div className="border border-slate-200 bg-white rounded-2xl shadow-xl p-8 w-[70vw] mx-auto mb-8">
+        <div className="border border-slate-200 bg-white rounded-2xl shadow-xl p-4 lg:p-8 lg:w-[70vw] mx-2 lg:mx-auto mb-8">
           <div className="flex items-center gap-4 mb-4">
-            <div className="w-13 h-13 bg-blue-100 rounded-lg flex items-center justify-center">
-              <BriefcaseIcon size={24} className="text-blue-700" />
+            <div className="w-24 h-15 lg:w-13 lg:h-13 bg-blue-100 rounded-lg flex items-center justify-center">
+              <BriefcaseIcon size={36} className="text-blue-700" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-slate-900">
+              <p className="text-xl lg:text-2xl font-bold text-slate-900">
                 Descrição da Vaga
               </p>
               <p className="text-slate-600">
