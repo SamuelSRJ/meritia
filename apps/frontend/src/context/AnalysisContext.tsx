@@ -26,7 +26,7 @@ const AnalysisContext = createContext<AnalysisContextType | undefined>(
 // ⚠️ ALTERNAR ENTRE MODO DESENVOLVIMENTO E PRODUÇÃO
 // true = usa seed data (para editar a página)
 // false = usa API de IA integrada
-const USE_SEED_DATA = false;
+const USE_SEED_DATA = true;
 
 export function AnalysisProvider({ children }: { children: React.ReactNode }) {
   // Em modo seed data, carrega imediatamente; caso contrário, começa como null

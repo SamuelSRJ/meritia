@@ -59,20 +59,20 @@ function Results() {
     <div className="bg-linear-to-br from-slate-50 to-blue-50">
       <Navbar />
       <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="bg-linear-to-r from-green-500 to-emerald-600 rounded-2xl p-8 mb-8 text-white">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center">
-              <CheckIcon size={44} className="" />
+        <div className="bg-linear-to-r from-green-500 to-emerald-600 rounded-2xl p-4 lg:p-8 mb-8 text-white">
+          <div className="flex items-center gap-4 mb-2">
+            <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-full bg-white/20 flex items-center justify-center">
+              <CheckIcon size={44} className="p-2 lg:p-0" />
             </div>
             <div>
-              <p className="text-3xl font-bold mb-2">Análise Concluída!</p>
+              <p className="text-xl lg:text-3xl font-bold mb-2">Análise Concluída!</p>
               <p className="text-green-100">
                 Seu currículo foi analisado com sucesso
               </p>
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           {/* TECH SKILLS */}
           <div className="bg-white rounded-2xl shadow-lg p-6 border border-slate-200">
             <div className="flex items-center gap-3 mb-4">
@@ -83,7 +83,7 @@ function Results() {
                 <p className="text-sm font-medium text-slate-600">
                   Tech Skills
                 </p>
-                <p className="text-3xl font-bold text-slate-900">
+                <p className="text-2xl lg:text-3xl font-bold text-slate-900">
                   {animatedTechScore}/100
                 </p>
               </div>
@@ -106,7 +106,7 @@ function Results() {
                 <p className="text-sm font-medium text-slate-600">
                   Soft Skills
                 </p>
-                <p className="text-3xl font-bold text-slate-900">
+                <p className="text-2xl lg:text-3xl font-bold text-slate-900">
                   {animatedSoftScore}/100
                 </p>
               </div>
@@ -129,7 +129,7 @@ function Results() {
                 <p className="text-sm font-medium text-slate-600">
                   Compatibilidade
                 </p>
-                <p className="text-3xl font-bold text-slate-900">
+                <p className="text-2xl lg:text-3xl font-bold text-slate-900">
                   {animatedJobMatch}/100
                 </p>
               </div>
@@ -143,14 +143,14 @@ function Results() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* PONTOS FORTES */}
-          <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-200">
+          <div className="bg-white rounded-2xl shadow-lg p-5 lg:p-8 border border-slate-200">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
                 <ThumbsUpIcon size={24} className="text-green-600" />
               </div>
-              <p className="text-2xl font-bold text-slate-900">Pontos Fortes</p>
+              <p className="text-xl lg:text-2xl font-bold text-slate-900">Pontos Fortes</p>
             </div>
             <ul className="space-y-4">
               {result.strengths.map((strength, id) => (
@@ -165,12 +165,12 @@ function Results() {
           </div>
 
           {/* PONTOS DE MELHORIA */}
-          <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-200">
+          <div className="bg-white rounded-2xl shadow-lg p-5 lg:p-8 border border-slate-200">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
                 <WarningIcon size={24} className="text-orange-600" />
               </div>
-              <p className="text-2xl font-bold text-slate-900">
+              <p className="text-xl lg:text-2xl font-bold text-slate-900">
                 Pontos de Melhoria
               </p>
             </div>
@@ -186,15 +186,15 @@ function Results() {
             </ul>
           </div>
         </div>
-        <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-200 mb-4">
+        <div className="bg-white rounded-2xl shadow-lg p-5 lg:p-8 border border-slate-200 mb-4">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
               <LightbulbFilamentIcon size={24} className="text-indigo-600" />
             </div>
-            <p className="text-2xl font-bold text-slate-900">Recomendações</p>
+            <p className="text-xl lg:text-2xl font-bold text-slate-900">Recomendações</p>
           </div>
           <ul className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               {result.recommendations.map((recommendation, id) => (
                 <li
                   className="flex gap-3 p-4 bg-indigo-50 rounded-lg border border-indigo-100"
@@ -223,7 +223,7 @@ function Results() {
             </p>
           </div>
         </div>
-        <div className="flex gap-4 justify-center">
+        <div className="grid lg:flex gap-4 justify-center">
           <Link
             to={"/upload"}
             className="px-8 py-4 bg-white text-slate-700 rounded-lg font-semibold hover:bg-slate-50 transition-colors border-2 border-slate-200 whitespace-nowrap cursor-pointer flex items-center justify-center gap-2"
