@@ -97,6 +97,15 @@ function Upload() {
     setLimit(e.target.value.length);
   };
 
+  const getApiUrl = () => {
+    const baseUrl = import.meta.env.VITE_API_URL;
+    if (baseUrl) {
+      return baseUrl;
+    }
+    // Fallback dinâmico: usa a máquina host na porta 4000
+    return `http://${window.location.hostname}:4000`;
+  };
+
   const handleAnalyze = async () => {
     setUploadError("");
     setContextError(null);
@@ -121,7 +130,7 @@ function Upload() {
     setIsAnalyzing(true);
 
     try {
-      const response = await fetch("http://localhost:4000/resume/analyze", {
+      const response = await fetch(`${getApiUrl()}/resume/analyze`, {
         method: "POST",
         body: formData,
       });
