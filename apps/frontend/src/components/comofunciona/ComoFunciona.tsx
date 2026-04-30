@@ -7,8 +7,8 @@ import {
 function ComoFunciona() {
   return (
     <div className="flex">
-      <div className="container mx-auto items-center py-20">
-        <div className="text-center mb-16">
+      <div className="container mx-auto items-center py-16">
+        <div className="text-center mb-6 lg:mb-16">
           <div className="text-4xl font-bold text-slate-900 mb-4">
             Como Funciona
           </div>
@@ -17,7 +17,7 @@ function ComoFunciona() {
             Artificial
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-1 lg:gap-8">
           {/* STEP 1 */}
           <div className="text-center p-8 rounded-xl hover:bg-slate-50 transition-colors">
             <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">

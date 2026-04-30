@@ -3,10 +3,10 @@ import { CheckIcon, FileArrowDownIcon, UserCheckIcon, UsersThreeIcon } from "@ph
 function PublicoAlvo() {
   return (
     <div className="flex py-20 bg-linear-to-br from-blue-600 to-indigo-700">
-      <div className="container mx-auto items-center grid grid-cols-2 gap-12">
+      <div className="container mx-auto items-center grid grid-cols-1 lg:grid-cols-2 gap-12">
         <div>
           <div className="p-4">
-            <p className="text-4xl font-bold text-white mb-6">Para Desenvolvedores e Profissionais de RH</p>
+            <p className="text-3xl lg:text-4xl text-center lg:text-left font-bold text-white mb-10 lg:mb-6">Para Desenvolvedores e Profissionais de RH</p>
             <div className="flex flex-col gap-8">
               {/* PARA CANDIDATOS */}
               <div className="flex gap-4">
@@ -42,7 +42,7 @@ function PublicoAlvo() {
           </div>
         </div>
         <div>
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 lg:p-8 mx-4 lg:mx-0 border border-white/20">
             <p className="text-2xl text-white font-semibold mb-6">O que você recebe:</p>
             <ul className="space-y-4">
               <li className="flex items-start gap-2">
