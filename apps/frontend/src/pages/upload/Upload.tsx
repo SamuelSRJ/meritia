@@ -93,6 +93,18 @@ function Upload() {
     if (inputRef.current) inputRef.current.value = "";
   };
 
+  const handleReset = () => {
+    setFilename("");
+    setFileSizeKB(0);
+    setError("");
+    setLimit(0);
+    fileRef.current = null;
+    if (inputRef.current) inputRef.current.value = "";
+    if (textareaRef.current) {
+      textareaRef.current.value = "";
+    }
+  }
+
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setLimit(e.target.value.length);
   };
@@ -288,14 +300,14 @@ function Upload() {
 
         <div className="flex gap-4 justify-center mb-10">
           <button
-            onClick={handleRemoveFile}
+            onClick={handleReset}
             className="px-8 py-4 bg-white text-slate-700 rounded-lg font-semibold hover:bg-slate-50 transition-colors border-2 border-slate-200 whitespace-nowrap cursor-pointer"
           >
-            Cancelar
+            Reset
           </button>
           <button
             onClick={handleAnalyze}
-            disabled={isAnalyzing || !filename}
+            disabled={isAnalyzing || !filename || limit === 0}
             className="px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2"
           >
             {isAnalyzing ? (
