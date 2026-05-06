@@ -9,7 +9,11 @@ import { extractTextFromFile } from "./utils/file-parser";
 export class ResumeService {
   private ai: GoogleGenAI;
   private readonly MAX_RETRIES = 3;
-  private readonly MODELS = ["gemini-2.5-flash", "gemini-2.0-flash"];
+  private readonly MODELS = ["gemini-2.5-flash"];
+
+  private getBackoffTime(attempt: number) {
+    return Math.pow(2, attempt - 1) * 10000; // 10s, 20s, 40s
+  }
 
   constructor() {
     const apiKey = process.env.GEMINI_API_KEY;
@@ -69,84 +73,107 @@ export class ResumeService {
 
   private async generateContentWithRetry(prompt: string) {
     let lastError: any;
+    let quotaExceeded = false;
 
-    // Tenta cada modelo disponível com retry automático
     for (const model of this.MODELS) {
+      console.log(`\n🚀 Iniciando tentativas com modelo: ${model}`);
+
       for (let attempt = 1; attempt <= this.MAX_RETRIES; attempt++) {
         try {
-          console.log(
-            `[Tentativa ${attempt}/${this.MAX_RETRIES}] Usando modelo: ${model}`,
-          );
+          console.log(`[${model}] Tentativa ${attempt}/${this.MAX_RETRIES}`);
 
           const response = await this.ai.models.generateContent({
             model,
             contents: prompt,
-            config: {
-              temperature: 0,
-            },
+            config: { temperature: 0 },
           });
 
           console.log(`✅ Sucesso com modelo: ${model}`);
           return response;
         } catch (error: any) {
           lastError = error;
+
           const status = error?.status;
-          const message = error?.message || "Erro desconhecido";
+          const message = (error?.message || "").toLowerCase();
 
-          // 429 - Quota estourada
-          if (status === 429) {
-            const msg = (message || "").toLowerCase();
+          console.warn(
+            `⚠️ [${model}] Erro (tentativa ${attempt}): status=${status} message=${message}`,
+          );
 
-            if (msg.includes("rate") || msg.includes("too many requests")) {
-              const waitTime = Math.pow(2, attempt - 1) * 10000;
-
-              console.warn("⚠️ Rate limit (429). Retry em ${waitTime}ms...`");
-              await this.delay(waitTime);
-              continue;
-            }
-
-            if (msg.includes("quota") || msg.includes("billing")) {
-              throw new AppException(
-                ErrorType.QUOTA_EXCEEDED,
-                "Limite de uso diário atingido.",
-                HttpStatus.TOO_MANY_REQUESTS,
-              );
-            }
-
-            // fallback - trata como sobrecarga
-            console.warn("Modelo sobrecarregado");
-            await this.delay(10000);
-            continue;
-          }
-
-          // Se for erro 503 (sobrecarregado), tenta novamente
-          if (status === 503) {
-            const waitTime = Math.pow(2, attempt - 1) * 10000; // Exponential backoff: 10s, 20s, 40s
-            console.warn(
-              `⚠️  Modelo sobrecarregado (503). Aguardando ${waitTime}ms antes de tentar novamente...`,
-            );
-            await this.delay(waitTime);
-          }
-          // Se for erro de API key ou permissão, não tenta novamente
-          else if (status === 401 || status === 403) {
-            console.error(`❌ Erro de autenticação: ${message}`);
+          // ================================
+          // 🔴 ERROS FATAIS (NÃO RETRY)
+          // ================================
+          if (status === 401 || status === 403) {
             throw new AppException(
               ErrorType.INTERNAL_ERROR,
               "Erro de autenticação com a API.",
               HttpStatus.UNAUTHORIZED,
             );
           }
-          // Para outros erros, tenta o próximo modelo
-          else {
-            console.warn(`⚠️  Erro com modelo ${model}: ${message}`);
-            break;
+
+          // ================================
+          // 🟡 QUOTA EXCEDIDA (NÃO RETRY, NÃO TROCA MODELO)
+          // ================================
+          if (
+            status === 429 &&
+            (message.includes("quota") || message.includes("billing"))
+          ) {
+            quotaExceeded = true;
+            break; // sai do loop de tentativas
           }
+
+          // ================================
+          // 🟠 RATE LIMIT (RETRY COM BACKOFF)
+          // ================================
+          if (
+            status === 429 &&
+            (message.includes("rate") || message.includes("too many requests"))
+          ) {
+            const waitTime = this.getBackoffTime(attempt);
+            console.warn(`⏳ Rate limit. Aguardando ${waitTime}ms...`);
+            await this.delay(waitTime);
+            continue;
+          }
+
+          // ================================
+          // 🔵 MODELO SOBRECARREGADO (RETRY)
+          // ================================
+          if (status === 503) {
+            const waitTime = this.getBackoffTime(attempt);
+            console.warn(
+              `⏳ Modelo sobrecarregado. Aguardando ${waitTime}ms...`,
+            );
+            await this.delay(waitTime);
+            continue;
+          }
+
+          // ================================
+          // ⚪ OUTROS ERROS → TROCA MODELO
+          // ================================
+          console.warn(`➡️ Pulando para próximo modelo...`);
+          break;
         }
+      }
+
+      // Se quota foi excedida, nem tenta outros modelos
+      if (quotaExceeded) {
+        break;
       }
     }
 
-    // Se chegou aqui, todos os modelos falharam
-    console.error("❌ Todos os modelos falharam após retries");
+    // ================================
+    // ❌ ERROS FINAIS
+    // ================================
+    if (quotaExceeded) {
+      throw new AppException(
+        ErrorType.QUOTA_EXCEEDED,
+        "Limite de uso diário atingido. Tente novamente amanhã.",
+        HttpStatus.TOO_MANY_REQUESTS,
+      );
+    }
+
+    console.error("❌ Todos os modelos falharam", lastError);
+
     throw new AppException(
       ErrorType.MODEL_OVERLOADED,
       "Modelo temporariamente sobrecarregado. Tente novamente em alguns instantes.",

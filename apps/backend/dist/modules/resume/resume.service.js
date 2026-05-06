@@ -16,9 +16,12 @@ const app_exception_1 = require("../../common/errors/app-exception");
 const error_types_1 = require("./../../common/errors/error-types");
 const file_parser_1 = require("./utils/file-parser");
 let ResumeService = class ResumeService {
+    getBackoffTime(attempt) {
+        return Math.pow(2, attempt - 1) * 10000;
+    }
     constructor() {
         this.MAX_RETRIES = 3;
-        this.MODELS = ["gemini-2.5-flash", "gemini-2.0-flash"];
+        this.MODELS = ["gemini-2.5-flash"];
         const apiKey = process.env.GEMINI_API_KEY;
         if (!apiKey) {
             throw new Error("GEMINI_API_KEY environment variable is not defined");
@@ -66,16 +69,16 @@ let ResumeService = class ResumeService {
     }
     async generateContentWithRetry(prompt) {
         let lastError;
+        let quotaExceeded = false;
         for (const model of this.MODELS) {
+            console.log(`\n🚀 Iniciando tentativas com modelo: ${model}`);
             for (let attempt = 1; attempt <= this.MAX_RETRIES; attempt++) {
                 try {
-                    console.log(`[Tentativa ${attempt}/${this.MAX_RETRIES}] Usando modelo: ${model}`);
+                    console.log(`[${model}] Tentativa ${attempt}/${this.MAX_RETRIES}`);
                     const response = await this.ai.models.generateContent({
                         model,
                         contents: prompt,
-                        config: {
-                            temperature: 0,
-                        },
+                        config: { temperature: 0 },
                     });
                     console.log(`✅ Sucesso com modelo: ${model}`);
                     return response;
@@ -83,39 +86,41 @@ let ResumeService = class ResumeService {
                 catch (error) {
                     lastError = error;
                     const status = error === null || error === void 0 ? void 0 : error.status;
-                    const message = (error === null || error === void 0 ? void 0 : error.message) || "Erro desconhecido";
-                    if (status === 429) {
-                        const msg = (message || "").toLowerCase();
-                        if (msg.includes("rate") || msg.includes("too many requests")) {
-                            const waitTime = Math.pow(2, attempt - 1) * 10000;
-                            console.warn("⚠️ Rate limit (429). Retry em ${waitTime}ms...`");
-                            await this.delay(waitTime);
-                            continue;
-                        }
-                        if (msg.includes("quota") || msg.includes("billing")) {
-                            throw new app_exception_1.AppException(error_types_1.ErrorType.QUOTA_EXCEEDED, "Limite de uso diário atingido.", common_1.HttpStatus.TOO_MANY_REQUESTS);
-                        }
-                        console.warn("Modelo sobrecarregado");
-                        await this.delay(10000);
+                    const message = ((error === null || error === void 0 ? void 0 : error.message) || "").toLowerCase();
+                    console.warn(`⚠️ [${model}] Erro (tentativa ${attempt}): status=${status} message=${message}`);
+                    if (status === 401 || status === 403) {
+                        throw new app_exception_1.AppException(error_types_1.ErrorType.INTERNAL_ERROR, "Erro de autenticação com a API.", common_1.HttpStatus.UNAUTHORIZED);
+                    }
+                    if (status === 429 &&
+                        (message.includes("quota") || message.includes("billing"))) {
+                        quotaExceeded = true;
+                        break;
+                    }
+                    if (status === 429 &&
+                        (message.includes("rate") || message.includes("too many requests"))) {
+                        const waitTime = this.getBackoffTime(attempt);
+                        console.warn(`⏳ Rate limit. Aguardando ${waitTime}ms...`);
+                        await this.delay(waitTime);
                         continue;
                     }
                     if (status === 503) {
-                        const waitTime = Math.pow(2, attempt - 1) * 10000;
-                        console.warn(`⚠️  Modelo sobrecarregado (503). Aguardando ${waitTime}ms antes de tentar novamente...`);
+                        const waitTime = this.getBackoffTime(attempt);
+                        console.warn(`⏳ Modelo sobrecarregado. Aguardando ${waitTime}ms...`);
                         await this.delay(waitTime);
+                        continue;
                     }
-                    else if (status === 401 || status === 403) {
-                        console.error(`❌ Erro de autenticação: ${message}`);
-                        throw new app_exception_1.AppException(error_types_1.ErrorType.INTERNAL_ERROR, "Erro de autenticação com a API.", common_1.HttpStatus.UNAUTHORIZED);
-                    }
-                    else {
-                        console.warn(`⚠️  Erro com modelo ${model}: ${message}`);
-                        break;
-                    }
+                    console.warn(`➡️ Pulando para próximo modelo...`);
+                    break;
                 }
             }
+            if (quotaExceeded) {
+                break;
+            }
         }
-        console.error("❌ Todos os modelos falharam após retries");
+        if (quotaExceeded) {
+            throw new app_exception_1.AppException(error_types_1.ErrorType.QUOTA_EXCEEDED, "Limite de uso diário atingido. Tente novamente amanhã.", common_1.HttpStatus.TOO_MANY_REQUESTS);
+        }
+        console.error("❌ Todos os modelos falharam", lastError);
         throw new app_exception_1.AppException(error_types_1.ErrorType.MODEL_OVERLOADED, "Modelo temporariamente sobrecarregado. Tente novamente em alguns instantes.", common_1.HttpStatus.SERVICE_UNAVAILABLE);
     }
     delay(ms) {
