@@ -149,9 +149,9 @@ function Upload() {
 
       if (!response.ok) {
         let errorMessage = "Erro inesperado ao processar o curriculo";
+        const errorData = await response.json();
 
         try {
-          const errorData = await response.json();
           console.log("ERROR DATA:", errorData);
 
           if (errorData) {
@@ -164,20 +164,23 @@ function Upload() {
             }
           }
         } catch {
-          console.warn("Resposta não é um JSON valido.")
+          console.warn("Resposta não é um JSON valido.");
         }
 
-        if (errorMessage === "Erro inesperado ao processar o curriculo") {
-          if (response.status === 429) {
-            if (errorMessage.toLocaleLowerCase().includes("Limite diário")) {
+        if (errorData?.type) {
+          switch (errorData.type) {
+            case "QUOTA_EXCEEDED":
               errorMessage = "Limite diário atingido. Tente novamente amanhã.";
-            } else {
+              break;
+            case "RATE_LIMIT":
               errorMessage = "Muitas requisições. Aguarde alguns instantes.";
-            }
-          } else if (response.status === 503) {
-            errorMessage = "Modelo temporariamente sobrecarregado. Tente novamente em alguns instantes."
-          } else if (response.status >= 500) {
-            errorMessage = "Erro interno do servidor. Tente novamente."
+              break;
+            case "MODEL_OVERLOADED":
+              errorMessage =
+                "Modelo sobrecarregado. Tente novamente em alguns instantes.";
+              break;
+            default:
+              errorMessage = errorData.message || errorMessage;
           }
         }
 

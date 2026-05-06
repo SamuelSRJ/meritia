@@ -1,10 +1,8 @@
 import { GoogleGenAI } from "@google/genai";
-import {
-  HttpException,
-  Injectable,
-  InternalServerErrorException,
-} from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { AppException } from "../../common/errors/app-exception";
 import { MulterFile } from "../../types/multer-file";
+import { ErrorType } from "./../../common/errors/error-types";
 import { extractTextFromFile } from "./utils/file-parser";
 
 @Injectable()
@@ -61,7 +59,11 @@ export class ResumeService {
         throw err;
       }
 
-      throw new InternalServerErrorException("Erro ao processar o curriculo.");
+      throw new AppException(
+        ErrorType.INTERNAL_ERROR,
+        "Erro ao processar o curriculo.",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
@@ -104,15 +106,12 @@ export class ResumeService {
             }
 
             if (msg.includes("quota") || msg.includes("billing")) {
-              throw new HttpException(
-                {
-                  status: 429,
-                  message: "Limite diário de uso atingido.",
-                  error: "Quota Exceeded"
-                }, 
-                429,
-              )
-            };
+              throw new AppException(
+                ErrorType.QUOTA_EXCEEDED,
+                "Limite de uso diário atingido.",
+                HttpStatus.TOO_MANY_REQUESTS,
+              );
+            }
 
             // fallback - trata como sobrecarga
             console.warn("Modelo sobrecarregado");
@@ -131,7 +130,11 @@ export class ResumeService {
           // Se for erro de API key ou permissão, não tenta novamente
           else if (status === 401 || status === 403) {
             console.error(`❌ Erro de autenticação: ${message}`);
-            throw error;
+            throw new AppException(
+              ErrorType.INTERNAL_ERROR,
+              "Erro de autenticação com a API.",
+              HttpStatus.UNAUTHORIZED,
+            );
           }
           // Para outros erros, tenta o próximo modelo
           else {
@@ -144,14 +147,11 @@ export class ResumeService {
 
     // Se chegou aqui, todos os modelos falharam
     console.error("❌ Todos os modelos falharam após retries");
-    throw new HttpException(
-      {
-        statusCode: 503,
-        message: "Modelo temporariamente sobrecarregado. Tente novamente em alguns instantes.",
-        error: "Service Unavailable",
-      },
-      503,
-    )
+    throw new AppException(
+      ErrorType.MODEL_OVERLOADED,
+      "Modelo temporariamente sobrecarregado. Tente novamente em alguns instantes.",
+      HttpStatus.SERVICE_UNAVAILABLE,
+    );
   }
 
   private delay(ms: number): Promise<void> {
@@ -169,7 +169,9 @@ export class ResumeService {
       return JSON.parse(jsonMatch[0]);
     } catch (err) {
       console.error("Erro ao extrair JSON:", err);
-      throw new Error("Resposta do modelo não está em formato válido. Tente novamente.");
+      throw new Error(
+        "Resposta do modelo não está em formato válido. Tente novamente.",
+      );
     }
   }
 }

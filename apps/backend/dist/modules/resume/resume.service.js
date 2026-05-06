@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ResumeService = void 0;
 const genai_1 = require("@google/genai");
 const common_1 = require("@nestjs/common");
+const app_exception_1 = require("../../common/errors/app-exception");
+const error_types_1 = require("./../../common/errors/error-types");
 const file_parser_1 = require("./utils/file-parser");
 let ResumeService = class ResumeService {
     constructor() {
@@ -59,7 +61,7 @@ let ResumeService = class ResumeService {
             if (err instanceof common_1.HttpException) {
                 throw err;
             }
-            throw new common_1.InternalServerErrorException("Erro ao processar o curriculo.");
+            throw new app_exception_1.AppException(error_types_1.ErrorType.INTERNAL_ERROR, "Erro ao processar o curriculo.", common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     async generateContentWithRetry(prompt) {
@@ -83,11 +85,19 @@ let ResumeService = class ResumeService {
                     const status = error === null || error === void 0 ? void 0 : error.status;
                     const message = (error === null || error === void 0 ? void 0 : error.message) || "Erro desconhecido";
                     if (status === 429) {
-                        throw new common_1.HttpException({
-                            statusCode: 429,
-                            message: "Limite de uso do modelo atingido.",
-                            error: "Too Many Requests"
-                        }, 429);
+                        const msg = (message || "").toLowerCase();
+                        if (msg.includes("rate") || msg.includes("too many requests")) {
+                            const waitTime = Math.pow(2, attempt - 1) * 10000;
+                            console.warn("⚠️ Rate limit (429). Retry em ${waitTime}ms...`");
+                            await this.delay(waitTime);
+                            continue;
+                        }
+                        if (msg.includes("quota") || msg.includes("billing")) {
+                            throw new app_exception_1.AppException(error_types_1.ErrorType.QUOTA_EXCEEDED, "Limite de uso diário atingido.", common_1.HttpStatus.TOO_MANY_REQUESTS);
+                        }
+                        console.warn("Modelo sobrecarregado");
+                        await this.delay(10000);
+                        continue;
                     }
                     if (status === 503) {
                         const waitTime = Math.pow(2, attempt - 1) * 10000;
@@ -96,7 +106,7 @@ let ResumeService = class ResumeService {
                     }
                     else if (status === 401 || status === 403) {
                         console.error(`❌ Erro de autenticação: ${message}`);
-                        throw error;
+                        throw new app_exception_1.AppException(error_types_1.ErrorType.INTERNAL_ERROR, "Erro de autenticação com a API.", common_1.HttpStatus.UNAUTHORIZED);
                     }
                     else {
                         console.warn(`⚠️  Erro com modelo ${model}: ${message}`);
@@ -106,11 +116,7 @@ let ResumeService = class ResumeService {
             }
         }
         console.error("❌ Todos os modelos falharam após retries");
-        throw new common_1.HttpException({
-            statusCode: 503,
-            message: "Modelo temporariamente sobrecarregado. Tente novamente em alguns instantes.",
-            error: "Service Unavailable",
-        }, 503);
+        throw new app_exception_1.AppException(error_types_1.ErrorType.MODEL_OVERLOADED, "Modelo temporariamente sobrecarregado. Tente novamente em alguns instantes.", common_1.HttpStatus.SERVICE_UNAVAILABLE);
     }
     delay(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
