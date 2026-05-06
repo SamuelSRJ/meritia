@@ -48,11 +48,17 @@ let ResumeService = class ResumeService {
         }`;
             const response = await this.generateContentWithRetry(prompt);
             const rawText = response.text;
+            if (!rawText || rawText.trim().length === 0) {
+                throw new Error("Resposta do modelo veio vazia.");
+            }
             const json = this.extractJson(rawText);
             return json;
         }
         catch (err) {
             console.error("analyzeResume error:", err);
+            if (err instanceof common_1.HttpException) {
+                throw err;
+            }
             throw new common_1.InternalServerErrorException("Erro ao processar o curriculo.");
         }
     }
@@ -76,6 +82,13 @@ let ResumeService = class ResumeService {
                     lastError = error;
                     const status = error === null || error === void 0 ? void 0 : error.status;
                     const message = (error === null || error === void 0 ? void 0 : error.message) || "Erro desconhecido";
+                    if (status === 429) {
+                        throw new common_1.HttpException({
+                            statusCode: 429,
+                            message: "Limite de uso do modelo atingido.",
+                            error: "Too Many Requests"
+                        }, 429);
+                    }
                     if (status === 503) {
                         const waitTime = Math.pow(2, attempt - 1) * 10000;
                         console.warn(`⚠️  Modelo sobrecarregado (503). Aguardando ${waitTime}ms antes de tentar novamente...`);
@@ -93,16 +106,27 @@ let ResumeService = class ResumeService {
             }
         }
         console.error("❌ Todos os modelos falharam após retries");
-        throw new common_1.InternalServerErrorException(`Serviço indisponível. Modelos estão sobrecarregados. Por favor, tente novamente em alguns minutos. Erro: ${lastError === null || lastError === void 0 ? void 0 : lastError.message}`);
+        throw new common_1.HttpException({
+            statusCode: 503,
+            message: "Modelo temporariamente sobrecarregado. Tente novamente em alguns instantes.",
+            error: "Service Unavailable",
+        }, 503);
     }
     delay(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
     extractJson(text) {
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
-        if (!jsonMatch)
-            throw new Error("JSON inválido");
-        return JSON.parse(jsonMatch[0]);
+        try {
+            const jsonMatch = text.match(/\{[\s\S]*\}/);
+            if (!jsonMatch) {
+                throw new Error("Nenhum JSON encontrado na resposta");
+            }
+            return JSON.parse(jsonMatch[0]);
+        }
+        catch (err) {
+            console.error("Erro ao extrair JSON:", err);
+            throw new Error("Resposta do modelo não está em formato válido. Tente novamente.");
+        }
     }
 };
 exports.ResumeService = ResumeService;

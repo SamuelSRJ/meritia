@@ -103,7 +103,7 @@ function Upload() {
     if (textareaRef.current) {
       textareaRef.current.value = "";
     }
-  }
+  };
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setLimit(e.target.value.length);
@@ -148,8 +148,40 @@ function Upload() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Erro ao processar o currículo");
+        let errorMessage = "Erro inesperado ao processar o curriculo";
+
+        try {
+          const errorData = await response.json();
+          console.log("ERROR DATA:", errorData);
+
+          if (errorData) {
+            if (typeof errorData.message === "string") {
+              errorMessage = errorData.message;
+            } else if (Array.isArray(errorData.message)) {
+              errorMessage = errorData.message.join(", ");
+            } else if (typeof errorData.error === "string") {
+              errorMessage = errorData.error;
+            }
+          }
+        } catch {
+          console.warn("Resposta não é um JSON valido.")
+        }
+
+        if (errorMessage === "Erro inesperado ao processar o curriculo") {
+          if (response.status === 429) {
+            if (errorMessage.toLocaleLowerCase().includes("Limite diário")) {
+              errorMessage = "Limite diário atingido. Tente novamente amanhã.";
+            } else {
+              errorMessage = "Muitas requisições. Aguarde alguns instantes.";
+            }
+          } else if (response.status === 503) {
+            errorMessage = "Modelo temporariamente sobrecarregado. Tente novamente em alguns instantes."
+          } else if (response.status >= 500) {
+            errorMessage = "Erro interno do servidor. Tente novamente."
+          }
+        }
+
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();

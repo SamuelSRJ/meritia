@@ -14,8 +14,8 @@ async function bootstrap() {
         transform: true,
     }));
     app.useGlobalFilters(new all_exceptions_filter_1.AllExceptionsFilter());
-    await app.listen(port, '0.0.0.0');
-    console.log(`🚀 Backend running on http://0.0.0.0:${port}`);
+    await app.listen(port);
+    console.log(`🚀 Backend running on http://localhost:${port}`);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map
