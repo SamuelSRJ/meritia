@@ -136,7 +136,7 @@ function Upload() {
 
     // Preparar FormData
     const formData = new FormData();
-    formData.append("resume", fileRef.current); // ← Nome CORRETO para o backend
+    formData.append("resume", fileRef.current);
     formData.append("jobDescription", jobDescription);
 
     setIsAnalyzing(true);
