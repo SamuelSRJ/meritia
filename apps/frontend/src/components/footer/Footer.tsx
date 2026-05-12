@@ -7,13 +7,13 @@ function Footer() {
         <div className="sm:flex sm:items-center sm:justify-between">
           <Link
             to={"/"}
-            className="flex items-center mb-4 sm:mb-0 rtl:space-x-reverse"
+            className="flex items-center mb-4 sm:mb-0 space-x-1 rtl:space-x-reverse"
           >
             <img
               src="/meritia.png"
               className="w-12 h-12 p-1 rounded-sm"
             />
-            <span className="text-heading self-center text-2xl font-semibold whitespace-nowrap">
+            <span className="text-heading self-center text-3xl font-semibold whitespace-nowrap">
               Meritia
             </span>
           </Link>
