@@ -1,9 +1,17 @@
-import { ArgumentsHost, BadRequestException, Catch, ExceptionFilter, HttpException, HttpStatus, Logger } from "@nestjs/common";
-import { Response } from 'express';
+import {
+  ArgumentsHost,
+  BadRequestException,
+  Catch,
+  ExceptionFilter,
+  HttpException,
+  HttpStatus,
+  Logger,
+} from "@nestjs/common";
+import { Response } from "express";
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
-  private readonly logger = new Logger(AllExceptionsFilter.name)
+  private readonly logger = new Logger(AllExceptionsFilter.name);
 
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
@@ -12,26 +20,24 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     const isHttp = exception instanceof HttpException;
     const status = isHttp
-        ? exception.getStatus()
-        : HttpStatus.INTERNAL_SERVER_ERROR;
+      ? exception.getStatus()
+      : HttpStatus.INTERNAL_SERVER_ERROR;
 
     let message: any = "Internal server error";
 
     if (exception instanceof BadRequestException) {
       message = "Não foi possível validar os dados recebidos.";
-      
+
       this.logger.warn({
-        msg: 'Validation failed',
+        msg: "Validation failed",
         path: request.url,
-        bodySize: request.headers['content-length'] || null,
+        bodySize: (request.headers as any)["content-length"] || null,
         detail: exception.getResponse(),
       });
     } else if (isHttp) {
-      const res = exception.getResponse();
-      message = typeof res === "string" 
-      ? res 
-      : res['message'] || message;
-      
+      const res = exception.getResponse() as any;
+      message = typeof res === "string" ? res : res["message"] || message;
+
       this.logger.error(
         `HTTP Exception on ${request.method} ${request.url}`,
         exception.stack ?? JSON.stringify(exception),
@@ -45,7 +51,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     response.status(status).json({
       statusCode: status,
-      error: message
-    })
+      error: message,
+    });
   }
 }

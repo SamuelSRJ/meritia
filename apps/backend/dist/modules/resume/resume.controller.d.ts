@@ -9,3 +9,4 @@ export declare class ResumeController {
     analyzeResume(file: MulterFile, body: AnalyzeResumeDto): Promise<any>;
     generateReport(data: GenerateReportDto, res: Response): Promise<Response<any, Record<string, any>>>;
 }
+//# sourceMappingURL=resume.controller.d.ts.map

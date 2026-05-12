@@ -1,28 +1,27 @@
 import { ArrayNotEmpty, IsArray, IsNumber, IsString } from "class-validator";
 
-
 export class GenerateReportDto {
   @IsNumber()
-  tech_score: number;
+  tech_score?: number;
 
   @IsNumber()
-  soft_score: number;
+  soft_score?: number;
 
   @IsNumber()
-  job_match: number;
+  job_match?: number;
 
   @IsArray()
   @ArrayNotEmpty()
   @IsString({ each: true })
-  strengths: string[];
+  strengths?: string[];
 
   @IsArray()
   @ArrayNotEmpty()
   @IsString({ each: true })
-  weaknesses: string[];
+  weaknesses?: string[];
 
   @IsArray()
   @ArrayNotEmpty()
   @IsString({ each: true })
-  recommendations: string[];
+  recommendations?: string[];
 }

@@ -9,3 +9,4 @@ export type MulterFile = {
     path?: string;
     buffer: Buffer;
 };
+//# sourceMappingURL=multer-file.d.ts.map

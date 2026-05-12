@@ -100,9 +100,7 @@ export class ResumeService {
             `⚠️ [${model}] Erro (tentativa ${attempt}): status=${status} message=${message}`,
           );
 
-          // ================================
-          // 🔴 ERROS FATAIS (NÃO RETRY)
-          // ================================
+          // ERROS FATAIS (NÃO RETRY)
           if (status === 401 || status === 403) {
             throw new AppException(
               ErrorType.INTERNAL_ERROR,
@@ -111,9 +109,7 @@ export class ResumeService {
             );
           }
 
-          // ================================
-          // 🟡 QUOTA EXCEDIDA (NÃO RETRY, NÃO TROCA MODELO)
-          // ================================
+          // QUOTA EXCEDIDA (NÃO RETRY, NÃO TROCA MODELO)
           if (
             status === 429 &&
             (message.includes("quota") || message.includes("billing"))
@@ -122,9 +118,7 @@ export class ResumeService {
             break; // sai do loop de tentativas
           }
 
-          // ================================
-          // 🟠 RATE LIMIT (RETRY COM BACKOFF)
-          // ================================
+          // RATE LIMIT (RETRY COM BACKOFF)
           if (
             status === 429 &&
             (message.includes("rate") || message.includes("too many requests"))
@@ -135,9 +129,7 @@ export class ResumeService {
             continue;
           }
 
-          // ================================
-          // 🔵 MODELO SOBRECARREGADO (RETRY)
-          // ================================
+          // MODELO SOBRECARREGADO (RETRY)
           if (status === 503) {
             const waitTime = this.getBackoffTime(attempt);
             console.warn(
@@ -147,9 +139,7 @@ export class ResumeService {
             continue;
           }
 
-          // ================================
-          // ⚪ OUTROS ERROS → TROCA MODELO
-          // ================================
+          // OUTROS ERROS → TROCA MODELO
           console.warn(`➡️ Pulando para próximo modelo...`);
           break;
         }
@@ -161,9 +151,7 @@ export class ResumeService {
       }
     }
 
-    // ================================
-    // ❌ ERROS FINAIS
-    // ================================
+    // ERROS FINAIS
     if (quotaExceeded) {
       throw new AppException(
         ErrorType.QUOTA_EXCEEDED,

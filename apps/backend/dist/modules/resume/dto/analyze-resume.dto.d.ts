@@ -1,3 +1,4 @@
 export declare class AnalyzeResumeDto {
-    jobDescription: string;
+    jobDescription?: string;
 }
+//# sourceMappingURL=analyze-resume.dto.d.ts.map

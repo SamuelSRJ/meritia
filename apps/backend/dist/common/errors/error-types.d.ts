@@ -4,3 +4,4 @@ export declare enum ErrorType {
     MODEL_OVERLOADED = "MODEL_OVERLOADED",
     INTERNAL_ERROR = "INTERNAL_ERROR"
 }
+//# sourceMappingURL=error-types.d.ts.map

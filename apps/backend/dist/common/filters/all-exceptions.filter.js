@@ -26,17 +26,15 @@ let AllExceptionsFilter = AllExceptionsFilter_1 = class AllExceptionsFilter {
         if (exception instanceof common_1.BadRequestException) {
             message = "Não foi possível validar os dados recebidos.";
             this.logger.warn({
-                msg: 'Validation failed',
+                msg: "Validation failed",
                 path: request.url,
-                bodySize: request.headers['content-length'] || null,
+                bodySize: request.headers["content-length"] || null,
                 detail: exception.getResponse(),
             });
         }
         else if (isHttp) {
             const res = exception.getResponse();
-            message = typeof res === "string"
-                ? res
-                : res['message'] || message;
+            message = typeof res === "string" ? res : res["message"] || message;
             this.logger.error(`HTTP Exception on ${request.method} ${request.url}`, (_a = exception.stack) !== null && _a !== void 0 ? _a : JSON.stringify(exception));
         }
         else {
@@ -44,7 +42,7 @@ let AllExceptionsFilter = AllExceptionsFilter_1 = class AllExceptionsFilter {
         }
         response.status(status).json({
             statusCode: status,
-            error: message
+            error: message,
         });
     }
 };

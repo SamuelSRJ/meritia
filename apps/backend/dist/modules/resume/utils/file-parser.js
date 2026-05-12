@@ -1,7 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.extractTextFromFile = extractTextFromFile;
-const mammoth_1 = require("mammoth");
+const mammoth_1 = __importDefault(require("mammoth"));
 const pdfParse = require('pdf-parse');
 async function extractTextFromFile(file) {
     var _a, _b;

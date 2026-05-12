@@ -10,3 +10,4 @@ export declare class ResumeService {
     private delay;
     private extractJson;
 }
+//# sourceMappingURL=resume.service.d.ts.map

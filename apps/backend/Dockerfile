@@ -1,40 +1,37 @@
-# Base deps
-FROM node:24-slim AS base
-WORKDIR /app
-
-COPY .yarn/ .yarn/
-COPY .yarnrc.yml ./
-COPY package.json yarn.lock ./
-
-COPY apps/backend/package.json ./apps/backend/
-COPY apps/frontend ./apps/frontend
-
-RUN corepack enable && yarn install
-
-# Builder
+# Build stage
 FROM node:24-slim AS builder
 WORKDIR /app
 
-COPY --from=base /app /app
+# Copy workspace configuration
+COPY .yarn .yarn/
+COPY .yarnrc.yml .
+COPY package.json yarn.lock ./
 
+# Copy backend source
 COPY apps/backend ./apps/backend
 
-RUN corepack enable
-RUN yarn workspace backend build
+# Install dependencies
+RUN corepack enable && yarn install
 
-RUN mkdir -p apps/backend/dist/fonts && \
-    cp -r apps/backend/fonts/* apps/backend/dist/fonts
+# Build backend
+WORKDIR /app/apps/backend
+RUN yarn build
 
-# Production
+# Production stage
 FROM node:24-slim AS production
 WORKDIR /app
 
 ENV NODE_ENV=production
 
+# Copy built application
 COPY --from=builder /app/apps/backend/dist ./dist
-
 COPY apps/backend/package.json ./
 
+# Create fonts directory and copy fonts
+RUN mkdir -p dist/fonts
+COPY apps/backend/fonts ./dist/fonts
+
+# Install production dependencies
 RUN corepack enable && yarn install --immutable --production
 
 EXPOSE 4000
