@@ -6,19 +6,19 @@ Uma plataforma web inteligente que analisa a compatibilidade entre seu currícul
 
 ## 📋 Sumário
 
-- [Visão Geral](#-visão-geral)
-- [Funcionalidades](#-funcionalidades)
-- [Tecnologias Utilizadas](#-tecnologias-utilizadas)
-- [Pré-requisitos](#-pré-requisitos)
-- [Guia de Instalação](#-guia-de-instalação)
-- [Configuração](#-configuração)
-- [Como Executar](#-como-executar)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-- [Como Funciona](#-como-funciona)
-- [Endpoints da API](#-endpoints-da-api)
-- [Screenshots](#-screenshots)
-- [Contribuição](#-contribuição)
-- [Autor](#-autor)
+- [Visão Geral](#visão-geral)
+- [Funcionalidades](#funcionalidades)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Pré-requisitos](#pré-requisitos)
+- [Guia de Instalação](#guia-de-instalação)
+- [Configuração](#configuração)
+- [Como Executar](#como-executar)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Como Funciona](#como-funciona)
+- [Endpoints da API](#endpoints-da-api)
+- [Screenshots](#screenshots)
+- [Autor](#autor)
+- [Suporte e Troubleshooting](#suporte-e-troubleshooting)
 
 ---
 
