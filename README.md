@@ -4,25 +4,25 @@
 
 Uma plataforma web inteligente que analisa a compatibilidade entre seu currículo e as vagas de emprego desejadas, utilizando Inteligência Artificial do Google Gemini.
 
-## 📋 Sumário
+## Sumário
 
-- [Visão Geral](#visão-geral-)
-- [Funcionalidades](#funcionalidades-)
+- [Visão Geral](#visão-geral)
+- [Funcionalidades](#funcionalidades)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Pré-requisitos](#pré-requisitos-)
-- [Guia de Instalação](#guia-de-instalação-)
+- [Pré-requisitos](#pré-requisitos)
+- [Guia de Instalação](#guia-de-instalação)
 - [Configuração](#configuração)
 - [Como Executar](#como-executar)
-- [Estrutura do Projeto](#estrutura-do-projeto-)
-- [Como Funciona](#como-funciona-)
-- [Endpoints da API](#endpoints-da-api-)
-- [Screenshots](#screenshots-)
-- [Autor](#autor-)
-- [Suporte e Troubleshooting](#suporte-e-troubleshooting-)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Como Funciona](#como-funciona)
+- [Endpoints da API](#endpoints-da-api)
+- [Screenshots](#screenshots)
+- [Autor](#autor)
+- [Suporte e Troubleshooting](#suporte-e-troubleshooting)
 
 ---
 
-## Visão Geral 🎯
+## Visão Geral
 
 **Meritia** é uma plataforma que utiliza Inteligência Artificial para análise profunda de compatibilidade entre currículo e vagas. A aplicação processa documentos (PDF, DOC e DOCX), extrai dados relevantes e fornece uma avaliação detalhada incluindo:
 
@@ -36,7 +36,7 @@ Uma plataforma web inteligente que analisa a compatibilidade entre seu currícul
 
 ---
 
-## Funcionalidades ✨
+## Funcionalidades
 
 ✅ Upload de currículo em PDF ou DOCX  
 ✅ Análise inteligente com Google Gemini
@@ -50,7 +50,7 @@ Uma plataforma web inteligente que analisa a compatibilidade entre seu currícul
 
 ---
 
-## Tecnologias Utilizadas 🛠️
+## Tecnologias Utilizadas
 
 ### Backend
 
@@ -85,7 +85,7 @@ Uma plataforma web inteligente que analisa a compatibilidade entre seu currícul
 
 ---
 
-## Pré-requisitos 📦
+## Pré-requisitos
 
 Antes de começar, certifique-se de ter instalado:
 
@@ -106,7 +106,7 @@ docker --version  # (opcional)
 
 ---
 
-## Guia de Instalação 🚀
+## Guia de Instalação
 
 ### 1. Clone o Repositório
 
@@ -137,7 +137,7 @@ Este comando instalará todas as dependências do projeto, incluindo backend e f
 6. Copie a chave gerada
 7. Crie o arquivo `.env` na raiz do backend e cole a chave da API como no arquivo `.env.example`
 
-> **⚠️ Importante:** A chave de API é gratuita e não requer cartão de crédito. O modelo Gemini 2.5 Flash oferece:
+> **Importante:** A chave de API é gratuita e não requer cartão de crédito. O modelo Gemini 2.5 Flash oferece:
 >
 > - Análises limitadas na camada gratuita
 > - Sem necessidade de pagamento
@@ -167,7 +167,7 @@ NODE_ENV=development
 
 ---
 
-## Configuração ⚙️
+## Configuração
 
 ### Estrutura de Ambiente
 
@@ -195,7 +195,7 @@ job-match-assistant/
 
 ---
 
-## Como Executar ▶️
+## Como Executar
 
 ### Opção 1: Desenvolvimento Local (Recomendado)
 
@@ -266,7 +266,7 @@ docker-compose down -v
 
 ---
 
-## Estrutura do Projeto 📁
+## Estrutura do Projeto
 
 ```
 job-match-assistant/
@@ -321,7 +321,7 @@ job-match-assistant/
 
 ---
 
-## Como Funciona 🧠
+## Como Funciona
 
 ### Fluxo de Funcionamento
 
@@ -367,7 +367,7 @@ O sistema utiliza um prompt especializado que:
 
 ---
 
-## Endpoints da API 🔌
+## Endpoints da API
 
 ### Upload e Análise
 
@@ -425,7 +425,7 @@ Gera um PDF com o relatório da análise.
 
 ---
 
-## Screenshots 📸
+## Screenshots
 
 <table>
   <tr>
@@ -448,7 +448,7 @@ Gera um PDF com o relatório da análise.
 
 ---
 
-## Autor 👤
+## Autor
 
 **Samuel de Souza**
 
@@ -457,13 +457,13 @@ Gera um PDF com o relatório da análise.
 
 ---
 
-## Licença 📝
+## Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
 
 ---
 
-## Suporte e Troubleshooting 🆘
+## Suporte e Troubleshooting
 
 ### Erro: "Modelo temporariamente sobrecarregado"
 
