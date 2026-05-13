@@ -1,8 +1,22 @@
-# Meritia
+# Meritia - Análise Inteligente de Currículos com IA
 
 ![logohome](./docs/images/logo.png)
 
-Uma plataforma web inteligente que analisa a compatibilidade entre seu currículo e as vagas de emprego desejadas, utilizando Inteligência Artificial do Google Gemini.
+Descubra, em segundos, o quão bem seu currículo se encaixa em uma vaga usando Inteligência Artificial.
+
+🔍 Avaliação de habilidades técnicas e comportamentais  
+📊 Score de compatibilidade com a vaga (%)  
+💡 Recomendações práticas para melhorar seu perfil  
+📄 Geração de relatório profissional (em desenvolvimento)    
+
+Aplicação full stack construída com NestJS, React e integração com Google Gemini.
+
+## Demonstração
+
+Acesse a aplicação em produção:
+
+👉 https://demo-meritia.vercel.app/
+
 
 ## Sumário
 
@@ -89,7 +103,7 @@ Uma plataforma web inteligente que analisa a compatibilidade entre seu currícul
 
 Antes de começar, certifique-se de ter instalado:
 
-- **Node.js** (versão 24 ou superior) - [Download](https://nodejs.org/)
+- **Node.js** (versão 18 ou superior) - [Download](https://nodejs.org/)
 - **Yarn** (versão 4.12.0 ou superior) - `npm install -g yarn@4.12.0`
 - **Git** - [Download](https://git-scm.com/)
 - **Docker** (opcional, para rodar com containers) - [Download](https://www.docker.com/)
@@ -174,7 +188,7 @@ NODE_ENV=development
 O projeto utiliza um setup de **monorepo com Yarn workspaces** contendo:
 
 ```
-job-match-assistant/
+meritia/
 ├── apps/
 │   ├── backend/          # API NestJS
 │   └── frontend/         # Interface React
@@ -269,7 +283,7 @@ docker-compose down -v
 ## Estrutura do Projeto
 
 ```
-job-match-assistant/
+meritia/
 ├── apps/
 │   ├── backend/                      # API NestJS
 │   │   ├── src/
@@ -506,4 +520,4 @@ Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes
 
 ---
 
-**Desenvolvido para ajudar profissionais a encontrar as melhores oportunidades.**
+**Desenvolvido como um projeto prático para explorar o uso de Inteligência Artificial aplicada à análise de currículos e construção de aplicações full stack modernas.**
