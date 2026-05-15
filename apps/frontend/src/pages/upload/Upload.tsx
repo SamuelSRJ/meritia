@@ -25,7 +25,7 @@ function Upload() {
   const fileRef = useRef<File | null>(null);
   const navigate = useNavigate();
   const { setResult, setError: setContextError } = useAnalysis();
-  const maxChars: number = 2000;
+  const maxChars: number = 3000;
 
   const processFile = (file: File | undefined) => {
     if (!file) return;

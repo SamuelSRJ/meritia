@@ -52,14 +52,14 @@ Acesse a aplicação em produção:
 
 ## Funcionalidades
 
-✅ Upload de currículo em PDF ou DOCX  
+✅ Upload de currículo em PDF ou DOCX
 ✅ Análise inteligente com Google Gemini
-✅ Avaliação de compatibilidade com a vaga  
-✅ Score detalhado de skills técnicas e soft skills  
-✅ Recomendações personalizadas  
+✅ Avaliação de compatibilidade com a vaga
+✅ Score detalhado de skills técnicas e soft skills
+✅ Recomendações personalizadas
 ✅ Interface responsiva para uso mobile
-✅ Suporte a múltiplos formatos de arquivo  
-✅ Processamento seguro com validação de dados  
+✅ Suporte a múltiplos formatos de arquivo
+✅ Processamento seguro com validação de dados
 ✅ Rate limiting para proteção da API
 
 ---
