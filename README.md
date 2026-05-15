@@ -7,7 +7,7 @@ Descubra, em segundos, o quão bem seu currículo se encaixa em uma vaga usando 
 🔍 Avaliação de habilidades técnicas e comportamentais  
 📊 Score de compatibilidade com a vaga (%)  
 💡 Recomendações práticas para melhorar seu perfil  
-📄 Geração de relatório profissional (em desenvolvimento)    
+📄 Geração de relatório profissional (em desenvolvimento)
 
 Aplicação full stack construída com NestJS, React e integração com Google Gemini.
 
@@ -16,7 +16,6 @@ Aplicação full stack construída com NestJS, React e integração com Google G
 Acesse a aplicação em produção:
 
 👉 https://demo-meritia.vercel.app/
-
 
 ## Sumário
 
@@ -52,15 +51,15 @@ Acesse a aplicação em produção:
 
 ## Funcionalidades
 
-✅ Upload de currículo em PDF ou DOCX
-✅ Análise inteligente com Google Gemini
-✅ Avaliação de compatibilidade com a vaga
-✅ Score detalhado de skills técnicas e soft skills
-✅ Recomendações personalizadas
-✅ Interface responsiva para uso mobile
-✅ Suporte a múltiplos formatos de arquivo
-✅ Processamento seguro com validação de dados
-✅ Rate limiting para proteção da API
+- ✅ Upload de currículo em PDF ou DOCX
+- ✅ Análise inteligente com Google Gemini
+- ✅ Avaliação de compatibilidade com a vaga
+- ✅ Score detalhado de skills técnicas e soft skills
+- ✅ Recomendações personalizadas
+- ✅ Interface responsiva para uso mobile
+- ✅ Suporte a múltiplos formatos de arquivo
+- ✅ Processamento seguro com validação de dados
+- ✅ Rate limiting para proteção da API
 
 ---
 
